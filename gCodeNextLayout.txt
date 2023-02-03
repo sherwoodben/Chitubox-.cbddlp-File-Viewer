@@ -1,0 +1,73 @@
+0x0000 - 3 bytes of mystery data				ex: 0x7D7D06
+0x0003 - 4 bytes of mystery float				ex: 0.1
+0x0007 - 4 bytes of exposure time (float)			ex: 50
+0x000B - 4 empty (?) bytes
+0x000F - 4 bytes for pointer to next block		ex: 0x00002D0A
+0x0013 - 32 bit int value of 3?				ex: 3
+0x0017 - 4 empty (?) bytes
+0x001B - 32 bit int value? (Length of Data)		ex: 84
+0x001F - 8 empty (?) bytes
+0x0023 - 32 bit int value? (Dist. between data!)	ex: 87
+0x0027 - 4 bytes of mystery float				ex: 5
+0x002B - 4 bytes of mystery float				ex: 65
+0x002F - 8 empty (?) bytes
+0x0037 - 4 bytes of mystery float				ex: 150
+0x003F - 20 empty (?) bytes
+0x0043 - 4 bytes of mystery float				ex: 255
+
+--NEXT LINE? NEXT BLOCK OF DATA AT LEAST--
+
+0x0000 - 3 bytes of mystery data				ex: 0x7D7D06
+0x0003 - 4 bytes of mystery float				ex: 0.15
+0x0007 - 4 bytes of exposure time (float)			ex: 50
+0x000B - 4 empty (?) bytes
+0x000F - pointer (?) to something else?			ex: 0x00002D61
+0x0013 - 32 bit int value of 3?				ex: 3
+0x0017 - 4 empty (?) bytes
+0x001B - 32 bit int value?					ex: 84
+0x001F - 8 empty (?) bytes
+0x0023 - 32 bit int value?					ex: 87
+0x0027 - 4 bytes of mystery float				ex: 5
+0x002B - 4 bytes of mystery float				ex: 65
+0x002F - 8 empty (?) bytes
+0x0037 - 4 bytes of mystery float				ex: 150
+0x003F - 20 empty (?) bytes
+0x0043 - 4 bytes of mystery float				ex: 255
+
+--NEXT LINE? NEXT BLOCK OF DATA AT LEAST--
+
+0x0000 - 3 bytes of mystery data				ex: 0x7D7D06
+0x0003 - 4 bytes of mystery float				ex: 0.2
+0x0007 - 4 bytes of exposure time (float)			ex: 50
+0x000B - 4 empty (?) bytes
+0x000F - pointer (?) to something else?			ex: 0x00002DB8
+0x0013 - 32 bit int value of 6?				ex: 6
+0x0017 - 4 empty (?) bytes
+0x001B - 32 bit int value?					ex: 84
+0x001F - 8 empty (?) bytes
+0x0023 - 32 bit int value?					ex: 90
+0x0027 - 4 bytes of mystery float				ex: 5
+0x002B - 4 bytes of mystery float				ex: 65
+0x002F - 8 empty (?) bytes
+0x0037 - 4 bytes of mystery float				ex: 150
+0x003F - 20 empty (?) bytes
+0x0043 - 4 bytes of mystery float				ex: 255
+
+--NEXT LINE? NEXT BLOCK OF DATA AT LEAST--
+
+0x0000 - 6 bytes of mystery data				ex: 0x27827D118247
+0x0006 - 4 bytes of mystery float				ex: 0.25
+0x000A - 4 bytes of exposure time (float)			ex: 50
+0x000E - 4 empty (?) bytes
+0x0012 - pointer (?) to something else?			ex: 0x00002E12
+0x0016 - 32 bit int value of 19?				ex: 19
+0x001A - 4 empty (?) bytes
+0x001E - 32 bit int value?					ex: 84
+0x0022 - 8 empty (?) bytes
+0x002A - 32 bit int value?					ex: 103
+0x002E - 4 bytes of mystery float				ex: 5
+0x0032 - 4 bytes of mystery float				ex: 65
+0x0036 - 8 empty (?) bytes
+0x0037 - 4 bytes of mystery float				ex: 150
+0x003F - 20 empty (?) bytes
+0x0043 - 4 bytes of mystery float				ex: 255

@@ -1,0 +1,590 @@
+Output for '_cat2.cbddlp'
+Screen X Size (mm): 0.756
+Screen Y Size (mm): 0.756
+Machine Z Size (mm): 1
+Model Height (mm): 0.65
+Layer Height (mm): 0.05
+Layer Exposure Time (s): 6
+Bottom Layer Exposure Time (s): 50
+Number of Bottom Layers: 8
+Screen X Pixels (px): 16
+Screen Y Pixels (px): 16
+Large Image Preview Address: 112
+G-Code Address: 15857
+Number of Layers: 13
+Small Image Preview Address: 10750
+Address of Unknown Data: 14930
+Light PWM: 64
+Bottom Light PWM: 128
+Address of Copyright Notice: 14990
+Offset for Copyright Notice: 76
+
+File Header:
+
+	Screen X Dimensions (mm): 0.756
+	Screen Y Dimensions (mm): 0.756
+	Machine Z Dimensions (mm): 1
+	Model Height (mm): 0.65
+	Layer Height (mm): 0.05
+	Layer Exposure Time (s): 6
+	Bottom Layer Exposure Time (s): 50
+	Number of bottom layers: 8
+	Screen X Pixels: 16
+	Screen Y Pixels: 16
+	Number of Layers: 13
+	Light PWM Value: 64
+	Bottom Light PWM Value: 128
+
+	Large Preview Image Address: 112
+	Small Preview Image Address: 10750
+	New Data Address: 14930
+	G Code Address: 15857
+	Copyright Address: 14990
+
+	Raw Data (located at 0):
+
+		19 00 FD 12 04 00 00 00 | 37 89 41 3F 37 89 41 3F 
+		00 00 80 3F 00 00 00 00 | 00 00 00 00 67 66 26 3F 
+		CD CC 4C 3D 00 00 C0 40 | 00 00 48 42 00 00 70 41 
+		08 00 00 00 10 00 00 00 | 10 00 00 00 70 00 00 00 
+		F1 3D 00 00 0D 00 00 00 | FE 29 00 00 49 02 00 00 
+		01 00 00 00 52 3A 00 00 | 3C 00 00 00 01 00 00 00 
+		40 00 80 00 00 00 00 00 | 8E 3A 00 00 4C 00 00 00 
+
+	Screen X Size (mm): 0.756
+	Screen Y Size (mm): 0.756
+	Machine Z Size (mm): 1
+	Model Height (mm): 0.65
+	Layer Height (mm): 0.05
+	Layer Exposure Time (s): 6
+	Bottom Layer Exposure Time (s): 50
+	Number of Bottom Layers: 8
+	Screen X Pixels (px): 16
+	Screen Y Pixels (px): 16
+	Large Image Preview Address: 112
+	G-Code Address: 15857
+	Number of Layers: 13
+	Small Image Preview Address: 10750
+	Address of Unknown Data: 14930
+	Light PWM: 64
+	Bottom Light PWM: 128
+	Address of Copyright Notice: 14990
+	Offset for Copyright Notice: 76
+
+Image Headers:
+
+	Image 0 (located at  112):
+		Image Width (px): 400
+		Image Height (px): 300
+
+		Image Data Address: 144
+		Image Size (bytes): 10606
+
+		Image Header Raw Data (located at  112):
+
+			90 01 00 00 2C 01 00 00 | 90 00 00 00 6E 29 00 00 
+
+	Image 1 (located at  10750):
+		Image Width (px): 200
+		Image Height (px): 125
+
+		Image Data Address: 10782
+		Image Size (bytes): 4148
+
+		Image Header Raw Data (located at  10750):
+
+			C8 00 00 00 7D 00 00 00 | 1E 2A 00 00 34 10 00 00 
+
+	Image 0 successfully saved to disk.
+	Image 1 successfully saved to disk.
+
+G-Code:
+
+	Number of Layers: 13:
+
+		G-Code Line 0 (located at 15857):
+			Layer Z Pos (mm): 0.05
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 16409
+			Layer's Image Size: 3
+			Size of Code Before Layer's Image: 84
+
+			Raw Data (located at 15857):
+
+				CD CC 4C 3D 00 00 48 42 | 00 00 20 41 19 40 00 00 
+				03 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 
+
+		Other Data Line 0 (located at 16325):
+			Layer Z Pos (mm): 0.05
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 16409
+			Image Size: 3
+			Size of Code Before Image: 84
+			Total Size: 87
+			Lifting Distance (mm): 2
+			Lifting Speed (mm/min): 65
+			Retract Speed (mm/min): 150
+			Rest Before Lift (s): 0
+			Rest After Lift (s): 0
+			Rest After Retract (s): 0
+			Light PWM: 128
+
+			Raw Data (located at 16325):
+
+				CD CC 4C 3D 00 00 48 42 | 00 00 20 41 19 40 00 00 
+				03 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 57 00 00 00 | 00 00 00 40 00 00 82 42 
+				00 00 00 00 00 00 00 00 | 00 00 16 43 00 00 00 00 
+				00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00 
+				00 00 00 43 7D 7D 06 
+
+		G-Code Line 1 (located at 15893):
+			Layer Z Pos (mm): 0.1
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 16496
+			Layer's Image Size: 3
+			Size of Code Before Layer's Image: 84
+
+			Raw Data (located at 15893):
+
+				CD CC CC 3D 00 00 48 42 | 00 00 20 41 70 40 00 00 
+				03 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 
+
+		Other Data Line 1 (located at 16412):
+			Layer Z Pos (mm): 0.1
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 16496
+			Image Size: 3
+			Size of Code Before Image: 84
+			Total Size: 87
+			Lifting Distance (mm): 2
+			Lifting Speed (mm/min): 65
+			Retract Speed (mm/min): 150
+			Rest Before Lift (s): 0
+			Rest After Lift (s): 0
+			Rest After Retract (s): 0
+			Light PWM: 128
+
+			Raw Data (located at 16412):
+
+				CD CC CC 3D 00 00 48 42 | 00 00 20 41 70 40 00 00 
+				03 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 57 00 00 00 | 00 00 00 40 00 00 82 42 
+				00 00 00 00 00 00 00 00 | 00 00 16 43 00 00 00 00 
+				00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00 
+				00 00 00 43 7D 7D 06 
+
+		G-Code Line 2 (located at 15929):
+			Layer Z Pos (mm): 0.15
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 16583
+			Layer's Image Size: 3
+			Size of Code Before Layer's Image: 84
+
+			Raw Data (located at 15929):
+
+				9A 99 19 3E 00 00 48 42 | 00 00 20 41 C7 40 00 00 
+				03 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 
+
+		Other Data Line 2 (located at 16499):
+			Layer Z Pos (mm): 0.15
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 16583
+			Image Size: 3
+			Size of Code Before Image: 84
+			Total Size: 87
+			Lifting Distance (mm): 2
+			Lifting Speed (mm/min): 65
+			Retract Speed (mm/min): 150
+			Rest Before Lift (s): 0
+			Rest After Lift (s): 0
+			Rest After Retract (s): 0
+			Light PWM: 128
+
+			Raw Data (located at 16499):
+
+				9A 99 19 3E 00 00 48 42 | 00 00 20 41 C7 40 00 00 
+				03 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 57 00 00 00 | 00 00 00 40 00 00 82 42 
+				00 00 00 00 00 00 00 00 | 00 00 16 43 00 00 00 00 
+				00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00 
+				00 00 00 43 7D 7D 06 
+
+		G-Code Line 3 (located at 15965):
+			Layer Z Pos (mm): 0.2
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 16670
+			Layer's Image Size: 6
+			Size of Code Before Layer's Image: 84
+
+			Raw Data (located at 15965):
+
+				CD CC 4C 3E 00 00 48 42 | 00 00 20 41 1E 41 00 00 
+				06 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 
+
+		Other Data Line 3 (located at 16586):
+			Layer Z Pos (mm): 0.2
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 16670
+			Image Size: 6
+			Size of Code Before Image: 84
+			Total Size: 90
+			Lifting Distance (mm): 2
+			Lifting Speed (mm/min): 65
+			Retract Speed (mm/min): 150
+			Rest Before Lift (s): 0
+			Rest After Lift (s): 0
+			Rest After Retract (s): 0
+			Light PWM: 128
+
+			Raw Data (located at 16586):
+
+				CD CC 4C 3E 00 00 48 42 | 00 00 20 41 1E 41 00 00 
+				06 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 5A 00 00 00 | 00 00 00 40 00 00 82 42 
+				00 00 00 00 00 00 00 00 | 00 00 16 43 00 00 00 00 
+				00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00 
+				00 00 00 43 37 82 7D 01 | 82 47 
+
+		G-Code Line 4 (located at 16001):
+			Layer Z Pos (mm): 0.25
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 16760
+			Layer's Image Size: 19
+			Size of Code Before Layer's Image: 84
+
+			Raw Data (located at 16001):
+
+				00 00 80 3E 00 00 48 42 | 00 00 20 41 78 41 00 00 
+				13 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 
+
+		Other Data Line 4 (located at 16676):
+			Layer Z Pos (mm): 0.25
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 16760
+			Image Size: 19
+			Size of Code Before Image: 84
+			Total Size: 103
+			Lifting Distance (mm): 2
+			Lifting Speed (mm/min): 65
+			Retract Speed (mm/min): 150
+			Rest Before Lift (s): 0
+			Rest After Lift (s): 0
+			Rest After Retract (s): 0
+			Light PWM: 128
+
+			Raw Data (located at 16676):
+
+				00 00 80 3E 00 00 48 42 | 00 00 20 41 78 41 00 00 
+				13 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 67 00 00 00 | 00 00 00 40 00 00 82 42 
+				00 00 00 00 00 00 00 00 | 00 00 16 43 00 00 00 00 
+				00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00 
+				00 00 00 43 37 82 0E 82 | 0E 82 0E 82 0E 82 0E 82 
+				0E 82 0E 82 0E 82 47 
+
+		G-Code Line 5 (located at 16037):
+			Layer Z Pos (mm): 0.3
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 16863
+			Layer's Image Size: 19
+			Size of Code Before Layer's Image: 84
+
+			Raw Data (located at 16037):
+
+				9A 99 99 3E 00 00 48 42 | 00 00 20 41 DF 41 00 00 
+				13 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 
+
+		Other Data Line 5 (located at 16779):
+			Layer Z Pos (mm): 0.3
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 16863
+			Image Size: 19
+			Size of Code Before Image: 84
+			Total Size: 103
+			Lifting Distance (mm): 2
+			Lifting Speed (mm/min): 65
+			Retract Speed (mm/min): 150
+			Rest Before Lift (s): 0
+			Rest After Lift (s): 0
+			Rest After Retract (s): 0
+			Light PWM: 128
+
+			Raw Data (located at 16779):
+
+				9A 99 99 3E 00 00 48 42 | 00 00 20 41 DF 41 00 00 
+				13 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 67 00 00 00 | 00 00 00 40 00 00 82 42 
+				00 00 00 00 00 00 00 00 | 00 00 16 43 00 00 00 00 
+				00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00 
+				00 00 00 43 37 82 0E 82 | 0E 82 0E 82 0E 82 0E 82 
+				0E 82 0E 82 0E 82 47 
+
+		G-Code Line 6 (located at 16073):
+			Layer Z Pos (mm): 0.35
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 16966
+			Layer's Image Size: 21
+			Size of Code Before Layer's Image: 84
+
+			Raw Data (located at 16073):
+
+				33 33 B3 3E 00 00 48 42 | 00 00 20 41 46 42 00 00 
+				15 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 
+
+		Other Data Line 6 (located at 16882):
+			Layer Z Pos (mm): 0.35
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 16966
+			Image Size: 21
+			Size of Code Before Image: 84
+			Total Size: 105
+			Lifting Distance (mm): 2
+			Lifting Speed (mm/min): 65
+			Retract Speed (mm/min): 150
+			Rest Before Lift (s): 0
+			Rest After Lift (s): 0
+			Rest After Retract (s): 0
+			Light PWM: 128
+
+			Raw Data (located at 16882):
+
+				33 33 B3 3E 00 00 48 42 | 00 00 20 41 46 42 00 00 
+				15 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 69 00 00 00 | 00 00 00 40 00 00 82 42 
+				00 00 00 00 00 00 00 00 | 00 00 16 43 00 00 00 00 
+				00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00 
+				00 00 00 43 37 82 0E 82 | 0E 82 0E 82 0E 82 0E 82 
+				0E 82 0E 82 0E 82 0E 82 | 37 
+
+		G-Code Line 7 (located at 16109):
+			Layer Z Pos (mm): 0.4
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 17071
+			Layer's Image Size: 10
+			Size of Code Before Layer's Image: 84
+
+			Raw Data (located at 16109):
+
+				CD CC CC 3E 00 00 48 42 | 00 00 20 41 AF 42 00 00 
+				0A 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 
+
+		Other Data Line 7 (located at 16987):
+			Layer Z Pos (mm): 0.4
+			Layer Exposure Time (s): 50
+			Pointer to Layer's Image: 17071
+			Image Size: 10
+			Size of Code Before Image: 84
+			Total Size: 94
+			Lifting Distance (mm): 2
+			Lifting Speed (mm/min): 65
+			Retract Speed (mm/min): 150
+			Rest Before Lift (s): 0
+			Rest After Lift (s): 0
+			Rest After Retract (s): 0
+			Light PWM: 128
+
+			Raw Data (located at 16987):
+
+				CD CC CC 3E 00 00 48 42 | 00 00 20 41 AF 42 00 00 
+				0A 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 5E 00 00 00 | 00 00 00 40 00 00 82 42 
+				00 00 00 00 00 00 00 00 | 00 00 16 43 00 00 00 00 
+				00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00 
+				00 00 00 43 7D 3A 82 0E | 82 0E 82 0E 82 17 
+
+		G-Code Line 8 (located at 16145):
+			Layer Z Pos (mm): 0.45
+			Layer Exposure Time (s): 39
+			Pointer to Layer's Image: 17165
+			Layer's Image Size: 8
+			Size of Code Before Layer's Image: 84
+
+			Raw Data (located at 16145):
+
+				66 66 E6 3E 00 00 1C 42 | 00 00 70 41 0D 43 00 00 
+				08 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 
+
+		Other Data Line 8 (located at 17081):
+			Layer Z Pos (mm): 0.45
+			Layer Exposure Time (s): 39
+			Pointer to Layer's Image: 17165
+			Image Size: 8
+			Size of Code Before Image: 84
+			Total Size: 92
+			Lifting Distance (mm): 4
+			Lifting Speed (mm/min): 75
+			Retract Speed (mm/min): 160
+			Rest Before Lift (s): 0
+			Rest After Lift (s): 0
+			Rest After Retract (s): 0
+			Light PWM: 64
+
+			Raw Data (located at 17081):
+
+				66 66 E6 3E 00 00 1C 42 | 00 00 70 41 0D 43 00 00 
+				08 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 5C 00 00 00 | 00 00 80 40 00 00 96 42 
+				00 00 00 00 00 00 00 00 | 00 00 20 43 00 00 00 00 
+				00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00 
+				00 00 80 42 7D 4A 82 0E | 82 0E 82 17 
+
+		G-Code Line 9 (located at 16181):
+			Layer Z Pos (mm): 0.5
+			Layer Exposure Time (s): 28
+			Pointer to Layer's Image: 17257
+			Layer's Image Size: 4
+			Size of Code Before Layer's Image: 84
+
+			Raw Data (located at 16181):
+
+				00 00 00 3F 01 00 E0 41 | 00 00 70 41 69 43 00 00 
+				04 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 
+
+		Other Data Line 9 (located at 17173):
+			Layer Z Pos (mm): 0.5
+			Layer Exposure Time (s): 28
+			Pointer to Layer's Image: 17257
+			Image Size: 4
+			Size of Code Before Image: 84
+			Total Size: 88
+			Lifting Distance (mm): 4
+			Lifting Speed (mm/min): 75
+			Retract Speed (mm/min): 160
+			Rest Before Lift (s): 0
+			Rest After Lift (s): 0
+			Rest After Retract (s): 0
+			Light PWM: 64
+
+			Raw Data (located at 17173):
+
+				00 00 00 3F 01 00 E0 41 | 00 00 70 41 69 43 00 00 
+				04 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 58 00 00 00 | 00 00 80 40 00 00 96 42 
+				00 00 00 00 00 00 00 00 | 00 00 20 43 00 00 00 00 
+				00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00 
+				00 00 80 42 17 82 7D 6A 
+
+		G-Code Line 10 (located at 16217):
+			Layer Z Pos (mm): 0.55
+			Layer Exposure Time (s): 17
+			Pointer to Layer's Image: 17345
+			Layer's Image Size: 4
+			Size of Code Before Layer's Image: 84
+
+			Raw Data (located at 16217):
+
+				CD CC 0C 3F 01 00 88 41 | 00 00 70 41 C1 43 00 00 
+				04 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 
+
+		Other Data Line 10 (located at 17261):
+			Layer Z Pos (mm): 0.55
+			Layer Exposure Time (s): 17
+			Pointer to Layer's Image: 17345
+			Image Size: 4
+			Size of Code Before Image: 84
+			Total Size: 88
+			Lifting Distance (mm): 4
+			Lifting Speed (mm/min): 75
+			Retract Speed (mm/min): 160
+			Rest Before Lift (s): 0
+			Rest After Lift (s): 0
+			Rest After Retract (s): 0
+			Light PWM: 64
+
+			Raw Data (located at 17261):
+
+				CD CC 0C 3F 01 00 88 41 | 00 00 70 41 C1 43 00 00 
+				04 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 58 00 00 00 | 00 00 80 40 00 00 96 42 
+				00 00 00 00 00 00 00 00 | 00 00 20 43 00 00 00 00 
+				00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00 
+				00 00 80 42 17 82 7D 6A 
+
+		G-Code Line 11 (located at 16253):
+			Layer Z Pos (mm): 0.6
+			Layer Exposure Time (s): 6
+			Pointer to Layer's Image: 17433
+			Layer's Image Size: 3
+			Size of Code Before Layer's Image: 84
+
+			Raw Data (located at 16253):
+
+				9A 99 19 3F 00 00 C0 40 | 00 00 70 41 19 44 00 00 
+				03 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 
+
+		Other Data Line 11 (located at 17349):
+			Layer Z Pos (mm): 0.6
+			Layer Exposure Time (s): 6
+			Pointer to Layer's Image: 17433
+			Image Size: 3
+			Size of Code Before Image: 84
+			Total Size: 87
+			Lifting Distance (mm): 4
+			Lifting Speed (mm/min): 75
+			Retract Speed (mm/min): 160
+			Rest Before Lift (s): 0
+			Rest After Lift (s): 0
+			Rest After Retract (s): 0
+			Light PWM: 64
+
+			Raw Data (located at 17349):
+
+				9A 99 19 3F 00 00 C0 40 | 00 00 70 41 19 44 00 00 
+				03 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 57 00 00 00 | 00 00 80 40 00 00 96 42 
+				00 00 00 00 00 00 00 00 | 00 00 20 43 00 00 00 00 
+				00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00 
+				00 00 80 42 7D 7D 06 
+
+		G-Code Line 12 (located at 16289):
+			Layer Z Pos (mm): 0.65
+			Layer Exposure Time (s): 6
+			Pointer to Layer's Image: 17520
+			Layer's Image Size: 3
+			Size of Code Before Layer's Image: 84
+
+			Raw Data (located at 16289):
+
+				66 66 26 3F 00 00 C0 40 | 00 00 70 41 70 44 00 00 
+				03 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 
+
+		Other Data Line 12 (located at 17436):
+			Layer Z Pos (mm): 0.65
+			Layer Exposure Time (s): 6
+			Pointer to Layer's Image: 17520
+			Image Size: 3
+			Size of Code Before Image: 84
+			Total Size: 87
+			Lifting Distance (mm): 4
+			Lifting Speed (mm/min): 75
+			Retract Speed (mm/min): 160
+			Rest Before Lift (s): 0
+			Rest After Lift (s): 0
+			Rest After Retract (s): 0
+			Light PWM: 64
+
+			Raw Data (located at 17436):
+
+				66 66 26 3F 00 00 C0 40 | 00 00 70 41 70 44 00 00 
+				03 00 00 00 00 00 00 00 | 54 00 00 00 00 00 00 00 
+				00 00 00 00 57 00 00 00 | 00 00 80 40 00 00 96 42 
+				00 00 00 00 00 00 00 00 | 00 00 20 43 00 00 00 00 
+				00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00 
+				00 00 80 42 7D 7D 06 
+
+
+
