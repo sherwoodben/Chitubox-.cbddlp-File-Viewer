@@ -74,6 +74,8 @@ struct ChituInterLayerGCodeLine : public ChituDataBlock
 		LIGHT_PWM = 0x0050
 	};
 
+	long int imgOffset = -1;
+
 	ChituInterLayerGCodeLine(char* readFrom, long int offset, long int bytesToRead)
 		: ChituDataBlock(readFrom, offset, bytesToRead)
 	{
@@ -102,6 +104,10 @@ struct ChituInterLayerGCodeLine : public ChituDataBlock
 		RegisterData(new ChituFloat(rawData, LIGHT_PWM, "Light PWM"), "LIGHT_PWM");
 	
 	}
+
+	long int GetImageAddress() { return GetValueByKey<long int>("LAYER_IMAGE_ADDRESS"); }
+	long int GetImageOffsetInChunk() { return imgOffset; }
+	long int GetImageSize() { return GetValueByKey<long int>("IMAGE_SIZE"); }
 };
 
 struct ChituGCode : public ChituDataBlock
@@ -157,7 +163,8 @@ struct ChituGCode : public ChituDataBlock
 			long int sizeOfCode = (*line)->GetSizeOfCode();
 
 			//use those values to build the inter layer g code line for each layer:
-			interLayerGCodeLines.push_back(new ChituInterLayerGCodeLine(rawData, pointerToImage - sizeOfCode - offset, sizeOfCode));
+			interLayerGCodeLines.push_back(new ChituInterLayerGCodeLine(rawData, pointerToImage - sizeOfCode - offset, sizeOfCode + sizeOfImage));
+			interLayerGCodeLines.back()->imgOffset = sizeOfCode;
 		}
 	}
 

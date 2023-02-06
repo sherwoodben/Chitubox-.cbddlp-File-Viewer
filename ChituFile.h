@@ -5,8 +5,9 @@
 #include <iostream>
 
 #include "ChituFileHeader.h"
-#include "ChituImage.h"
+#include "ChituPreviewImage.h"
 #include "ChituGCode.h"
+#include "ChituLayerImage.h"
 
 class ChituFile
 {
@@ -31,6 +32,8 @@ private:
 
 	ChituGCode* cGCode = nullptr;
 
+	ChituLayerImageManager* cLayerImageManager = nullptr;
+
 public:
 
 	ChituFile(std::string FILE_PATH, std::ofstream* LOG_STREAM = nullptr)
@@ -49,6 +52,7 @@ public:
 		delete cSmallPreviewHeader;
 		delete cSmallPreviewImage;
 		delete cGCode;
+		delete cLayerImageManager;
 	}
 
 	bool InitFile();

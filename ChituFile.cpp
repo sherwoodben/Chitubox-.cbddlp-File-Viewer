@@ -55,6 +55,10 @@ void ChituFile::LoadFile()
 		cFileHeader->GetGCodeAddress(), cFileSize - cFileHeader->GetGCodeAddress(), 
 		cFileHeader->GetNumLayers());
 
+	//load layer images:
+	cLayerImageManager = new ChituLayerImageManager(&(cGCode->interLayerGCodeLines),
+		cFileHeader->GetScreenX_PX(), cFileHeader->GetScreenY_PX());
+
 	//close the file since we've read everything we need
 	//to from it
 	fclose(cFile);
@@ -72,6 +76,8 @@ void ChituFile::Report()
 	SavePreviewImages();
 	*logStream << "\nG-Code:" << std::endl;
 	cGCode->ReportData(logStream, 1);
+	*logStream << "\nLayer Images:" << std::endl;
+	cLayerImageManager->ReportImages(logStream, 1);
 }
 
 void ChituFile::SavePreviewImages()

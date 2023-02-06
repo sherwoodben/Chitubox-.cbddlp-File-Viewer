@@ -21,7 +21,7 @@ int main() {
 
 	//string to store the file name, hard
 	//coded for now
-	std::string fileName = "INPUT\\smallCat.cbddlp";
+	std::string fileName = "INPUT\\_cat.cbddlp";
 
 	//log file information
 	std::string logFileName = "OUTPUT\\log.txt";

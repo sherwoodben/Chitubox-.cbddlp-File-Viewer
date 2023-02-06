@@ -137,15 +137,16 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ChituFile.cpp" />
-    <ClCompile Include="ChituImage.cpp" />
+    <ClCompile Include="ChituPreviewImage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChituDataBlock.h" />
     <ClInclude Include="ChituDataTypes.h" />
+    <ClInclude Include="ChituLayerImage.h" />
     <ClInclude Include="FileInterpreter.h" />
     <ClInclude Include="ChituFile.h" />
     <ClInclude Include="ChituGCode.h" />
-    <ClInclude Include="ChituImage.h" />
+    <ClInclude Include="ChituPreviewImage.h" />
     <ClInclude Include="ChituFileHeader.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="stb_image_write.h" />
