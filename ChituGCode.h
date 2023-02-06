@@ -1,60 +1,62 @@
 #pragma once
 
+#include <map>
+#include <string>
 #include <vector>
 #include <iostream>
 
 #include "FileInterpreter.h"
+#include "ChituDataBlock.h"
 
-struct ChituDataLine
+struct ChituGCodeLine : public ChituDataBlock
 {
-	ChituPointer lineAddress;
-	char* rawData = nullptr;
-	int sizeOfCode = 0;
-};
-
-struct GCodeLine : public ChituDataLine
-{
-	enum GCodeLineDataOffsets
+	//found by poking around in a hex editor;
+	//slight possibility I've made the wrong
+	//conclusion
+	enum DataOffsets
 	{
 		LAYER_Z = 0x0000,
 		EXPOSURE_TIME = 0x0004,
 		LIGHT_OFF_DELAY = 0x0008,
 		POINTER_TO_IMAGE = 0x000C,
 		IMAGE_SIZE = 0x0010,
-		SIZE_OF_CODE_BEFORE_IMAGE = 0x0018,
-
+		SIZE_OF_CODE_BEFORE_IMAGE = 0x0018
 	};
 
-	float layerZPos = 0;
-	float layerExposureTime = 0;
-	ChituPointer PointerToImage;
-	long int imageSize = 0;
-	long int sizeOfCodeBeforeImage = 0;
-
-	GCodeLine() : ChituDataLine() {};
-
-	~GCodeLine()
+	ChituGCodeLine(char* readFrom, long int offset, long int bytesToRead)
+		: ChituDataBlock(readFrom, offset, bytesToRead)
 	{
-		if (rawData != nullptr)
-		{
-			delete[] rawData;
-		}
-		rawData = nullptr;
+		InitGCodeLine();
 	}
 
-	void LoadData()
+	ChituGCodeLine(const ChituGCodeLine& copyFrom) : ChituDataBlock(copyFrom)
 	{
-		ReadFromBinary(layerZPos, rawData, GCodeLineDataOffsets::LAYER_Z);
-		ReadFromBinary(layerExposureTime, rawData, GCodeLineDataOffsets::EXPOSURE_TIME);
-		ReadFromBinary(PointerToImage, rawData, GCodeLineDataOffsets::POINTER_TO_IMAGE);
-		ReadFromBinary(imageSize, rawData, GCodeLineDataOffsets::IMAGE_SIZE);
-		ReadFromBinary(sizeOfCodeBeforeImage, rawData, GCodeLineDataOffsets::SIZE_OF_CODE_BEFORE_IMAGE);
 	}
+
+	void InitGCodeLine()
+	{
+		RegisterData(new ChituFloat(rawData, LAYER_Z, "Layer Z Position (mm)"), "LAYER_Z_MM");
+		RegisterData(new ChituFloat(rawData, EXPOSURE_TIME, "Layer Exposure Time (s)"), "LAYER_EXPOSURE_TIME");
+		RegisterData(new ChituFloat(rawData, LIGHT_OFF_DELAY, "Light Off Delay (s)"), "LIGHT_OFF_DELAY");
+		RegisterData(new ChituAddress(rawData, POINTER_TO_IMAGE, "Address of Image for Layer"), "LAYER_IMAGE_ADDRESS");
+		RegisterData(new ChituInt(rawData, IMAGE_SIZE, "Size of Image (bytes)"), "IMAGE_SIZE");
+		RegisterData(new ChituInt(rawData, SIZE_OF_CODE_BEFORE_IMAGE, "Size of Code Before Image (bytes)"), "SIZE_OF_CODE");
+	}
+
+	//"helper" functions to get values we may need to access
+	//more frequently
+	long int GetImageAddress() { return GetValueByKey<long int>("LAYER_IMAGE_ADDRESS"); }
+	long int GetImageSize() { return GetValueByKey<long int>("IMAGE_SIZE"); }
+	long int GetSizeOfCode() { return GetValueByKey<long int>("SIZE_OF_CODE"); }
+
 };
 
-struct InterLayerGCodeLine : public ChituDataLine
+struct ChituInterLayerGCodeLine : public ChituDataBlock
 {
-	enum InterLayerGCodeLineDataOffsets
+	//found by poking around in a hex editor;
+	//slight possibility I've made the wrong
+	//conclusion
+	enum DataOffsets
 	{
 		LAYER_Z = 0x0000,
 		EXPOSURE_TIME = 0x0004,
@@ -72,153 +74,113 @@ struct InterLayerGCodeLine : public ChituDataLine
 		LIGHT_PWM = 0x0050
 	};
 
-	float layerZPos = 0;
-	float layerExposureTime = 0;
-	ChituPointer PointerToImage;
-	long int imageSize = 0;
-	long int sizeOfCode = 0;
-	long int totalSize = 0;
-	float liftingDistance = 0;
-	float liftingSpeed = 0;
-	float retractSpeed = 0;
-	float restBeforeLift = 0;
-	float restAfterLift = 0;
-	float restAfterRetract = 0;
-	float lightPWM = 0;
-
-	InterLayerGCodeLine() : ChituDataLine() {};
-
-	~InterLayerGCodeLine()
+	ChituInterLayerGCodeLine(char* readFrom, long int offset, long int bytesToRead)
+		: ChituDataBlock(readFrom, offset, bytesToRead)
 	{
-		if (rawData != nullptr)
-		{
-			delete[] rawData;
-		}
-		rawData = nullptr;
+		InitInterLayerGCodeLine();
 	}
 
-	void LoadData()
+	ChituInterLayerGCodeLine(const ChituInterLayerGCodeLine& copyFrom) : ChituDataBlock(copyFrom)
 	{
-		ReadFromBinary(layerZPos, rawData, InterLayerGCodeLineDataOffsets::LAYER_Z);
-		ReadFromBinary(layerExposureTime, rawData, InterLayerGCodeLineDataOffsets::EXPOSURE_TIME);
-		ReadFromBinary(PointerToImage, rawData, InterLayerGCodeLineDataOffsets::POINTER_TO_IMAGE);
-		ReadFromBinary(imageSize, rawData, InterLayerGCodeLineDataOffsets::IMAGE_SIZE);
-		ReadFromBinary(sizeOfCode, rawData, InterLayerGCodeLineDataOffsets::LAYER_CODE_SIZE);
-		ReadFromBinary(totalSize, rawData, InterLayerGCodeLineDataOffsets::SIZE_OF_NEXT_DATA);
-		ReadFromBinary(liftingDistance, rawData, InterLayerGCodeLineDataOffsets::LIFTING_DISTANCE);
-		ReadFromBinary(liftingSpeed, rawData, InterLayerGCodeLineDataOffsets::LIFTING_SPEED);
-		ReadFromBinary(retractSpeed, rawData, InterLayerGCodeLineDataOffsets::RETRACT_SPEED);
-		ReadFromBinary(restBeforeLift, rawData, InterLayerGCodeLineDataOffsets::REST_BEFORE_LIFT);
-		ReadFromBinary(restAfterLift, rawData, InterLayerGCodeLineDataOffsets::REST_AFTER_LIFT);
-		ReadFromBinary(restAfterRetract, rawData, InterLayerGCodeLineDataOffsets::REST_AFTER_RETRACT);
-		ReadFromBinary(lightPWM, rawData, InterLayerGCodeLineDataOffsets::LIGHT_PWM);
+	}
+
+	void InitInterLayerGCodeLine()
+	{
+		RegisterData(new ChituFloat(rawData, LAYER_Z, "Layer Z Position (mm)"), "LAYER_Z_MM");
+		RegisterData(new ChituFloat(rawData, EXPOSURE_TIME, "Layer Exposure Time (s)"), "LAYER_EXPOSURE_TIME");
+		RegisterData(new ChituFloat(rawData, LIGHT_OFF_DELAY, "Light Off Delay (s)"), "LIGHT_OFF_DELAY");
+		RegisterData(new ChituAddress(rawData, POINTER_TO_IMAGE, "Address of Image for Layer"), "LAYER_IMAGE_ADDRESS");
+		RegisterData(new ChituInt(rawData, IMAGE_SIZE, "Size of Image (bytes)"), "IMAGE_SIZE");
+		RegisterData(new ChituInt(rawData, LAYER_CODE_SIZE, "Size of Code Before Image (bytes)"), "SIZE_OF_CODE");
+		RegisterData(new ChituInt(rawData, SIZE_OF_NEXT_DATA, "Size of Next Data Block (bytes)"), "NEXT_CHUNK_SIZE");
+		RegisterData(new ChituFloat(rawData, LIFTING_DISTANCE, "Lifting Distance (mm)"), "LIFT_DISTANCE");
+		RegisterData(new ChituFloat(rawData, LIFTING_SPEED, "Lifting Speed (mm/min)"), "LIFT_SPEED");
+		RegisterData(new ChituFloat(rawData, RETRACT_SPEED, "Retract Speed (mm/min)"), "RETRACT_SPEED");
+		RegisterData(new ChituFloat(rawData, REST_BEFORE_LIFT, "Rest Before Lift (s)"), "REST_BEFORE_LIFT");
+		RegisterData(new ChituFloat(rawData, REST_AFTER_LIFT, "Rest After Lift (s)"), "REST_AFTER_LIFT");
+		RegisterData(new ChituFloat(rawData, REST_AFTER_RETRACT, "Rest After Retract (s)"), "REST_AFTER_RETRACT");
+		RegisterData(new ChituFloat(rawData, LIGHT_PWM, "Light PWM"), "LIGHT_PWM");
+	
 	}
 };
 
-
-
-struct ChituGCode
+struct ChituGCode : public ChituDataBlock
 {
-	int SIZE_OF_G_CODE_LINE = 36;
-	int numLines = 0;
-	std::vector<GCodeLine*> gCodeLines;
-	std::vector<InterLayerGCodeLine*> dataLines;
 
-	ChituGCode(std::FILE* file, int _numLines, unsigned long int GCodeOffset)
+	std::vector<ChituGCodeLine*> gCodeLines;
+	std::vector<ChituInterLayerGCodeLine*> interLayerGCodeLines;
+
+	long int SIZE_OF_GCODE_LINE = 36;
+	long int numberOfLayers = -1;
+
+	ChituGCode(std::FILE* readFrom, long int offset, long int bytesToRead, long int numLayers)
+		: ChituDataBlock(readFrom, offset, bytesToRead), numberOfLayers(numLayers)
 	{
-		numLines = _numLines;
+		InitGCodeLines();
+		InitInterLayerGCodeLines();
+	}
+
+	~ChituGCode()
+	{
+		//since we allocated with new, we need to delete each
+		//object in the g-code/inter layer g-code vectors
+		for (std::vector<ChituGCodeLine*>::iterator line = gCodeLines.begin(); line != gCodeLines.end(); line++)
+		{
+			delete *line;
+		}
+		for (std::vector<ChituInterLayerGCodeLine*>::iterator line = interLayerGCodeLines.begin(); line != interLayerGCodeLines.end(); line++)
+		{
+			delete* line;
+		}
+
+		//clear the vectors
 		gCodeLines.clear();
-		dataLines.clear();
+		interLayerGCodeLines.clear();
+	}
 
-		for (int i = 0; i < numLines; i++)
+	void InitGCodeLines()
+	{
+		for (int i = 0; i < numberOfLayers; i++)
 		{
-			gCodeLines.push_back(ReadIntoGCodeLine(file, GCodeOffset + (i * SIZE_OF_G_CODE_LINE), SIZE_OF_G_CODE_LINE));
-			dataLines.push_back(ReadIntoDataLine(file, gCodeLines.back()->PointerToImage.chituAddress, gCodeLines.back()->imageSize, gCodeLines.back()->sizeOfCodeBeforeImage));
+			//build the g code line for each layer
+			gCodeLines.push_back(new ChituGCodeLine(rawData, i * SIZE_OF_GCODE_LINE, SIZE_OF_GCODE_LINE));
 		}
 	}
 
-	GCodeLine* ReadIntoGCodeLine(std::FILE* file, unsigned long int startLocation, int bytesToRead)
+	void InitInterLayerGCodeLines()
 	{
-		GCodeLine* lineToReturn = new GCodeLine();
-
-		lineToReturn->rawData = new char[bytesToRead];
-		lineToReturn->sizeOfCode = bytesToRead;
-		lineToReturn->lineAddress.chituAddress = startLocation;
-
-		fseek(file, startLocation, SEEK_SET);
-		fread(lineToReturn->rawData, sizeof(char), lineToReturn->sizeOfCode, file);
-
-		lineToReturn->LoadData();
-
-		return lineToReturn;
-	}
-
-	InterLayerGCodeLine* ReadIntoDataLine(std::FILE* file, unsigned long int addressPointedTo, int SIZE_OF_IMAGE, int SIZE_OF_LINE)
-	{
-		InterLayerGCodeLine* lineToReturn = new InterLayerGCodeLine();
-		lineToReturn->imageSize = SIZE_OF_IMAGE;
-		lineToReturn->sizeOfCode = SIZE_OF_LINE;
-		lineToReturn->rawData = new char[lineToReturn->sizeOfCode + lineToReturn->imageSize];
-
-		lineToReturn->lineAddress.chituAddress = addressPointedTo - lineToReturn->sizeOfCode;
-		
-
-		fseek(file, lineToReturn->lineAddress.chituAddress, SEEK_SET);
-		fread(lineToReturn->rawData, sizeof(char), lineToReturn->sizeOfCode + lineToReturn->imageSize, file);
-
-		lineToReturn->LoadData();
-
-		return lineToReturn;
-	}
-
-	void Report(std::ostream* targetStream = &std::cout, int tabLevel = 0)
-	{
-		std::string tabString;
-		for (int i = 0; i < tabLevel; i++) tabString.append("\t");
-		*targetStream << tabString << "Number of Layers: " << numLines << ":" << std::endl;
-		*targetStream << std::endl;
-		for (int i = 0; i < numLines; i++)
+		for (std::vector<ChituGCodeLine*>::iterator line = gCodeLines.begin(); line != gCodeLines.end(); line++)
 		{
-			tabString.append("\t");
-			*targetStream << tabString << "G-Code Line " << i << " (located at " << gCodeLines[i]->lineAddress.chituAddress << "):" << std::endl;
-			tabString.append("\t");
-			*targetStream << tabString << "Layer Z Pos (mm): " << gCodeLines[i]->layerZPos << std::endl;
-			*targetStream << tabString << "Layer Exposure Time (s): " << gCodeLines[i]->layerExposureTime << std::endl;
-			*targetStream << tabString << "Pointer to Layer's Image: " << gCodeLines[i]->PointerToImage.chituAddress << std::endl;
-			*targetStream << tabString << "Layer's Image Size: " << gCodeLines[i]->imageSize << std::endl;
-			*targetStream << tabString << "Size of Code Before Layer's Image: " << gCodeLines[i]->sizeOfCodeBeforeImage << std::endl;
-			*targetStream << std::endl;
+			//get the values we need to be able to read each line:
+			long int pointerToImage = (*line)->GetImageAddress();
+			long int sizeOfImage = (*line)->GetImageSize();
+			long int sizeOfCode = (*line)->GetSizeOfCode();
 
-			*targetStream << tabString << "Raw Data (located at " << gCodeLines[i]->lineAddress.chituAddress << "):" << std::endl;
-			RawDataToStream(gCodeLines[i]->rawData, gCodeLines[i]->sizeOfCode, targetStream, tabLevel + 3);
-			tabString.clear();
-			for (int j = 0; j < tabLevel; j++) tabString.append("\t");
-
-			tabString.append("\t");
-			*targetStream << tabString << "Other Data Line " << i << " (located at " << dataLines[i]->lineAddress.chituAddress << "):" << std::endl;
-			tabString.append("\t");
-			*targetStream << tabString << "Layer Z Pos (mm): " << dataLines[i]->layerZPos << std::endl;
-			*targetStream << tabString << "Layer Exposure Time (s): " << dataLines[i]->layerExposureTime << std::endl;
-			*targetStream << tabString << "Pointer to Layer's Image: " << dataLines[i]->PointerToImage.chituAddress << std::endl;
-			*targetStream << tabString << "Image Size: " << dataLines[i]->imageSize << std::endl;
-			*targetStream << tabString << "Size of Code Before Image: " << dataLines[i]->sizeOfCode << std::endl;
-			*targetStream << tabString << "Total Size: " << dataLines[i]->totalSize << std::endl;
-			*targetStream << tabString << "Lifting Distance (mm): " << dataLines[i]->liftingDistance << std::endl;
-			*targetStream << tabString << "Lifting Speed (mm/min): " << dataLines[i]->liftingSpeed << std::endl;
-			*targetStream << tabString << "Retract Speed (mm/min): " << dataLines[i]->retractSpeed << std::endl;
-			*targetStream << tabString << "Rest Before Lift (s): " << dataLines[i]->restBeforeLift << std::endl;
-			*targetStream << tabString << "Rest After Lift (s): " << dataLines[i]->restAfterLift << std::endl;
-			*targetStream << tabString << "Rest After Retract (s): " << dataLines[i]->restAfterRetract << std::endl;
-			*targetStream << tabString << "Light PWM: " << dataLines[i]->lightPWM << std::endl;
-			*targetStream << std::endl;
-
-			*targetStream << tabString << "Raw Data (located at " << dataLines[i]->lineAddress.chituAddress << "):" << std::endl;
-			RawDataToStream(dataLines[i]->rawData, dataLines[i]->sizeOfCode + dataLines[i]->imageSize, targetStream, tabLevel + 3);
-			tabString.clear();
-			for (int j = 0; j < tabLevel; j++) tabString.append("\t");
-			
+			//use those values to build the inter layer g code line for each layer:
+			interLayerGCodeLines.push_back(new ChituInterLayerGCodeLine(rawData, pointerToImage - sizeOfCode - offset, sizeOfCode));
 		}
-		*targetStream << "\n" << std::endl;
+	}
+
+	//we have a special ReportData function for the G-Code because
+	//it's a collection of other data chunks, which each need to call
+	//their own ReportData function-- so, we define a custom instead of
+	//the one in ChituDataBlock:
+	void ReportData(std::ostream* targetStream, int tabLevel = 0) override
+	{
+		for (int layer = 0; layer < numberOfLayers; layer++)
+		{
+			std::string tabString = "";
+
+			for (int i = 0; i < tabLevel; i++) tabString.append(1, '\t');
+
+			*targetStream << tabString << "Layer " << layer + 1 << ":" << std::endl;
+
+			gCodeLines[layer]->ReportData(targetStream, tabLevel + 1);
+
+			*targetStream << tabString << "Inter Layer " << layer + 1 << ":" << std::endl;
+
+			interLayerGCodeLines[layer]->ReportData(targetStream, tabLevel + 1);
+		}
 	}
 
 };

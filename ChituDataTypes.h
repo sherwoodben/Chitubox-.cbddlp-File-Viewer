@@ -35,13 +35,7 @@ struct ChituData
 			size = 2;
 			break;
 		}
-		this->rawData = readFrom;// +offsetInBlock;
-
-		for (int i = 0; i < size; i++)
-		{
-			std::cout << this->rawData[i + offset];
-		}
-		std::cout << std::endl;
+		this->rawData = readFrom;
 	}
 
 	ChituData(const ChituData& copyFrom)
@@ -70,7 +64,6 @@ struct ChituInt : public ChituData
 		: ChituData(readFrom, offsetInBlock, DataType::INT, humanReadableName)
 	{
 		ReadFromBinary(this->value, this->rawData, this->offset);
-		std::cout << value << std::endl;
 	}
 
 	ChituInt(const ChituInt& copyFrom) : ChituData(copyFrom)
@@ -92,7 +85,6 @@ struct ChituFloat : public ChituData
 		: ChituData(readFrom, offsetInBlock, DataType::FLOAT, humanReadableName)
 	{
 		ReadFromBinary(this->value, this->rawData, this->offset);
-		std::cout << value << std::endl;
 	}
 
 	ChituFloat(const ChituFloat& copyFrom) : ChituData(copyFrom)
@@ -114,7 +106,6 @@ struct ChituAddress : public ChituData
 		: ChituData(readFrom, offsetInBlock, DataType::ADDRESS, humanReadableName)
 	{
 		ReadFromBinary(this->value, this->rawData, this->offset);
-		std::cout << value << std::endl;
 	}
 
 	ChituAddress(const ChituAddress& copyFrom) : ChituData(copyFrom)
@@ -136,7 +127,6 @@ struct ChituShort : public ChituData
 		: ChituData(readFrom, offsetInBlock, DataType::SHORT, humanReadableName)
 	{
 		ReadFromBinary(this->value, this->rawData, this->offset);
-		std::cout << value << std::endl;
 	}
 
 	ChituShort(const ChituShort& copyFrom) : ChituData(copyFrom)
