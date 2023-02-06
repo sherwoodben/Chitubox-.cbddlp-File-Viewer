@@ -1,133 +1,64 @@
 #pragma once
 
-#include "FileInterpreter.h"
-#include "FileHeader.h"
-#include "NewFileHeader.h"
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+
+#include "ChituFileHeader.h"
 #include "ChituImage.h"
 #include "ChituGCode.h"
-
-extern bool DEBUG;
 
 class ChituFile
 {
 private:
 
-	int HEADER_SIZE = 112;
-	int IMG_HEADER_SIZE = 16;
+	std::FILE* cFile = nullptr;
+	std::string filePath = "DEFAULT";
+	std::ofstream* logStream = nullptr;
 
-	ChituPointer* fileHeaderPointer = nullptr;
-	FileHeader* fileHeader = nullptr;
-	NewFileHeader* newFileHeader = nullptr;
+	long int cFileSize = -1;
 
-	ChituPointer* largePreviewImagePointer = nullptr;
-	ChituImage* largePreviewImage = nullptr;
+	long int CFILE_HEADER_SIZE = 112;
+	long int PREVIEW_IMAGE_HEADER_SIZE = 16;
 
-	ChituPointer* gCodePointer = nullptr;
-	ChituGCode* gCode = nullptr;
-
-	ChituPointer* smallPreviewImagePointer = nullptr;
-	ChituImage* smallPreviewImage = nullptr;
-
-	ChituPointer* copyrightPointer = nullptr;
-	long int* additionalCopyrightOffset = nullptr;
+	ChituFileHeader* cFileHeader = nullptr;
 	
+	ChituPreviewImageHeader* cLargePreviewHeader = nullptr;
+	ChituPreviewImage* cLargePreviewImage = nullptr;
+
+	ChituPreviewImageHeader* cSmallPreviewHeader = nullptr;
+	ChituPreviewImage* cSmallPreviewImage = nullptr;
+
+	ChituGCode* cGCode = nullptr;
+
 public:
 
-	std::FILE* file;
-	std::ofstream* logFile;
-
-	ChituFile(std::FILE* _file, std::ofstream* _logFile = nullptr)
+	ChituFile(std::string FILE_PATH, std::ofstream* LOG_STREAM = nullptr)
+		: filePath(FILE_PATH), logStream(LOG_STREAM)
 	{
-		file = _file;
-		logFile = _logFile;
-
-		fileHeader = new FileHeader(file, HEADER_SIZE);
-		newFileHeader = new NewFileHeader(file, HEADER_SIZE);
-		newFileHeader->InitFileHeader();
-		newFileHeader->ReportData(logFile);
-
 	}
 
 	~ChituFile()
 	{
-		delete fileHeader;
-		delete newFileHeader;
-
-		delete largePreviewImage;
-		delete smallPreviewImage;
-
-		delete gCode;
+		//created components of the file with 'new'
+		//so we need to also 'delete' them [see LoadFile()
+		//for 'new' usage]:
+		delete cFileHeader;
+		delete cLargePreviewHeader;
+		delete cLargePreviewImage;
+		delete cSmallPreviewHeader;
+		delete cSmallPreviewImage;
+		delete cGCode;
 	}
 
-	void LoadHeader()
-	{
-		fileHeader->ParseRawData();
+	bool InitFile();
 
-		largePreviewImagePointer = &fileHeader->largePreviewImage;
-		gCodePointer = &fileHeader->gCodePointer;
-		smallPreviewImagePointer = &fileHeader->smallPreviewImage;
+	void LoadFile();
 
-		copyrightPointer = &fileHeader->copyrightPointer;
-		additionalCopyrightOffset = &fileHeader->copyrightOffset;
+	void Report();
 
-		if (logFile)
-		{
-			*logFile << "\nFile Header:\n" << std::endl;
-			fileHeader->Report(logFile, 1);
+	std::string GetFilePath() { return filePath; }
 
-			newFileHeader->ReportData(logFile, 1);
-		}
-	}
-
-	void LoadImages()
-	{
-		
-		largePreviewImage = new ChituImage(file, *largePreviewImagePointer, IMG_HEADER_SIZE, 0);
-		smallPreviewImage = new ChituImage(file, *smallPreviewImagePointer, IMG_HEADER_SIZE, 1);
-
-		if (logFile)
-		{
-			*logFile << "\nImage Headers:\n" << std::endl;
-			largePreviewImage->Report(logFile, 1);
-			smallPreviewImage->Report(logFile, 1);
-		}
-
-		GetImages();
-	}
-
-	void GetImages()
-	{
-		std::string tabString;
-		tabString.append(1, '\t');
-
-		largePreviewImage->DecodeImage();
-		if (!largePreviewImage->SaveDecodedImage("OUTPUT\\largePreview") && logFile)
-		{
-			*logFile << tabString << "Image " << largePreviewImage->imageID << " could not be saved." << std::endl;
-		}
-		else if (logFile)
-		{
-			*logFile << tabString << "Image " << largePreviewImage->imageID << " successfully saved to disk." << std::endl;
-		}
-
-		smallPreviewImage->DecodeImage();
-		if (!smallPreviewImage->SaveDecodedImage("OUTPUT\\smallPreview") && logFile)
-		{
-			*logFile << tabString << "Image " << smallPreviewImage->imageID << " could not be saved." << std::endl;
-		}
-		else if (logFile)
-		{
-			*logFile << tabString << "Image " << smallPreviewImage->imageID << " successfully saved to disk." << std::endl;
-		}
-	}
-
-	void LoadGCode()
-	{
-		gCode = new ChituGCode(file, fileHeader->numLayers, gCodePointer->chituAddress);
-		if (logFile)
-		{
-			*logFile << "\nG-Code:\n" << std::endl;
-			gCode->Report(logFile, 1);
-		}
-	}
+	void SavePreviewImages();
+	
 };

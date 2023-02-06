@@ -19,42 +19,54 @@
     <Filter Include="Header Files\Old Versions">
       <UniqueIdentifier>{002db268-3c16-4b54-a687-a48ec2a3b098}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Updated Versions\ChituFileComponents">
+      <UniqueIdentifier>{1c902ab4-bb2d-46e1-a64f-8bc64a3ba1c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Updated Versions\Utilities">
+      <UniqueIdentifier>{9fe07593-7ecf-490d-90e7-9ec1d5825df3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Updated Versions\STB_IMAGE">
+      <UniqueIdentifier>{2ed7f64b-58c9-4e85-a5ca-5c06ef69aa86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ChituFile.cpp">
+      <Filter>Header Files\Updated Versions\ChituFileComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="ChituImage.cpp">
+      <Filter>Header Files\Updated Versions\ChituFileComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NewFileHeader.h">
-      <Filter>Header Files\Updated Versions</Filter>
+    <ClInclude Include="ChituGCode.h">
+      <Filter>Header Files\Updated Versions\ChituFileComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="ChituFileHeader.h">
+      <Filter>Header Files\Updated Versions\ChituFileComponents</Filter>
     </ClInclude>
     <ClInclude Include="ChituDataBlock.h">
-      <Filter>Header Files\Updated Versions</Filter>
+      <Filter>Header Files\Updated Versions\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="ChituDataTypes.h">
-      <Filter>Header Files\Updated Versions</Filter>
-    </ClInclude>
-    <ClInclude Include="ChituGCode.h">
-      <Filter>Header Files\Old Versions</Filter>
-    </ClInclude>
-    <ClInclude Include="ChituImage.h">
-      <Filter>Header Files\Old Versions</Filter>
-    </ClInclude>
-    <ClInclude Include="FileHeader.h">
-      <Filter>Header Files\Old Versions</Filter>
+      <Filter>Header Files\Updated Versions\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="FileInterpreter.h">
-      <Filter>Header Files\Updated Versions</Filter>
-    </ClInclude>
-    <ClInclude Include="stb_image.h">
-      <Filter>Header Files\Updated Versions</Filter>
-    </ClInclude>
-    <ClInclude Include="stb_image_write.h">
-      <Filter>Header Files\Updated Versions</Filter>
+      <Filter>Header Files\Updated Versions\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="ChituFile.h">
-      <Filter>Header Files\Old Versions</Filter>
+      <Filter>Header Files\Updated Versions\ChituFileComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files\Updated Versions\STB_IMAGE</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image_write.h">
+      <Filter>Header Files\Updated Versions\STB_IMAGE</Filter>
+    </ClInclude>
+    <ClInclude Include="ChituImage.h">
+      <Filter>Header Files\Updated Versions\ChituFileComponents</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

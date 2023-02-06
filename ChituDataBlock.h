@@ -9,27 +9,33 @@
 #include "FileInterpreter.h"
 #include"ChituDataTypes.h"
 
-
-
 struct ChituDataBlock
 {
 	long int size = -1;
+	long int offset = -1;
+	bool isSubsetOfLarger = false;
 	char* rawData = nullptr;
 
 	std::map<std::string, ChituData*> data;
 	std::vector<std::string> dataInsertionOrder;
 	int dataEntries = 0;
 
-	ChituDataBlock(std::FILE* readFrom, long int readOffset, long int bytesToRead) : size{bytesToRead}
+	ChituDataBlock(std::FILE* readFrom, long int readOffset, long int bytesToRead) : size{bytesToRead}, offset{readOffset}
 	{
 		rawData = new char[size];
 		fseek(readFrom, readOffset, SEEK_SET);
 		fread(rawData, sizeof(char), size, readFrom);
 	}
 
+	ChituDataBlock(char* readFrom, long int readOffset, long int bytesToRead) : size{ bytesToRead }
+	{
+		isSubsetOfLarger = true;
+		rawData = readFrom + readOffset;
+	}
+
 	~ChituDataBlock()
 	{
-		if (rawData != nullptr)
+		if (rawData != nullptr && !isSubsetOfLarger)
 		{
 			delete[] rawData;
 		}
@@ -53,7 +59,103 @@ struct ChituDataBlock
 		dataEntries++;
 	}
 
-	void ReportData(std::ostream* targetStream, int tabLevel = 0)
+	template <typename T>
+	T GetValueByKey(std::string key)
+	{
+		try
+		{
+			ChituData* datum = data.at(key);
+
+			if (datum->type == DataType::INT)
+			{
+				return (static_cast<ChituInt*>(datum))->value;
+			}
+			else if (datum->type == DataType::FLOAT)
+			{
+				return (static_cast<ChituFloat*>(datum))->value;
+			}
+			else if (datum->type == DataType::ADDRESS)
+			{
+				return (static_cast<ChituAddress*>(datum))->value;
+			}
+			else if (datum->type == DataType::SHORT)
+			{
+				return (static_cast<ChituShort*>(datum))->value;
+			}
+
+			return -1;
+		}
+		catch (const std::out_of_range& outOfRangeError)
+		{
+			return -1;
+		}
+	}
+
+	template <>
+	long int GetValueByKey(std::string key)
+	{
+		try
+		{
+			ChituData* datum = data.at(key);
+
+			if (datum->type == DataType::INT)
+			{
+				return (static_cast<ChituInt*>(datum))->value;
+			}
+			else if (datum->type == DataType::ADDRESS)
+			{
+				return (static_cast<ChituAddress*>(datum))->value;
+			}
+
+			return -1;
+		}
+		catch (const std::out_of_range& outOfRangeError)
+		{
+			return -1;
+		}
+	}
+
+	template <>
+	float GetValueByKey(std::string key)
+	{
+		try
+		{
+			ChituData* datum = data.at(key);
+
+			if (datum->type == DataType::FLOAT)
+			{
+				return (static_cast<ChituFloat*>(datum))->value;
+			}
+
+			return -1;
+		}
+		catch (const std::out_of_range& outOfRangeError)
+		{
+			return -1;
+		}
+	}
+
+	template <>
+	short int GetValueByKey(std::string key)
+	{
+		try
+		{
+			ChituData* datum = data.at(key);
+
+			if (datum->type == DataType::SHORT)
+			{
+				return (static_cast<ChituShort*>(datum))->value;
+			}
+
+			return -1;
+		}
+		catch (const std::out_of_range& outOfRangeError)
+		{
+			return -1;
+		}
+	}
+
+	virtual void ReportData(std::ostream* targetStream, int tabLevel = 0)
 	{
 
 		for (std::vector<std::string>::iterator dataEntry = dataInsertionOrder.begin(); dataEntry != dataInsertionOrder.end(); dataEntry++)
@@ -68,25 +170,19 @@ struct ChituDataBlock
 
 			if (datum->type == DataType::INT)
 			{
-
-				ChituInt* datumAsInt = static_cast<ChituInt*>(datum);
-				*targetStream << datumAsInt->value << std::endl;
+				*targetStream << GetValueByKey<long int>(*dataEntry) << std::endl;
 			}
 			else if (datum->type == DataType::FLOAT)
 			{
-				ChituFloat* datumAsFloat = static_cast<ChituFloat*>(datum);
-				float val = datumAsFloat->value;
-				*targetStream << datumAsFloat->value << std::endl;
+				*targetStream << GetValueByKey<float>(*dataEntry) << std::endl;
 			}
 			else if (datum->type == DataType::ADDRESS)
 			{
-				ChituAddress* datumAsAddress = static_cast<ChituAddress*>(datum);
-				*targetStream << datumAsAddress->value << std::endl;
+				*targetStream << GetValueByKey<long int>(*dataEntry) << std::endl;
 			}
 			else if (datum->type == DataType::SHORT)
 			{
-				ChituShort* datumAsShort = static_cast<ChituShort*>(datum);
-				*targetStream << datumAsShort->value << std::endl;
+				*targetStream << GetValueByKey<short int>(*dataEntry) << std::endl;
 			}
 		}
 	}

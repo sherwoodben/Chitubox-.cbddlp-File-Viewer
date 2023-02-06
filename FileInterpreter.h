@@ -21,7 +21,7 @@ static void ReadFromBinary<ChituPointer>(ChituPointer& readInto, char* data, lon
 	std::memcpy(&readInto.chituAddress, data + readAt, 4);
 }
 
-char BinToHex(char val)
+static char BinToHex(char val)
 {
 	char hexValues[16] = {
 		'0', '1', '2', '3', '4', '5', '6', '7',
@@ -31,7 +31,7 @@ char BinToHex(char val)
 	return hexValues[val];
 }
 
-std::string BinToHex(char* data, int bytesToRead)
+static std::string BinToHex(char* data, int bytesToRead)
 {
 	std::string asString = "";
 
@@ -47,7 +47,7 @@ std::string BinToHex(char* data, int bytesToRead)
 	return asString;
 }
 
-void RawDataToStream(char* rawData, int bytesToConvert, std::ostream* stream, int tabLevel = 0)
+static void RawDataToStream(char* rawData, int bytesToConvert, std::ostream* stream, int tabLevel = 0)
 {
 	std::string tabString = "";
 	for (int i = 0; i < tabLevel; i++) tabString.append(1, '\t');
