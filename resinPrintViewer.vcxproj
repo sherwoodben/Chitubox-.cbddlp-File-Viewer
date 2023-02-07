@@ -140,6 +140,7 @@
     <ClCompile Include="ChituPreviewImage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChituCopyrightData.h" />
     <ClInclude Include="ChituDataBlock.h" />
     <ClInclude Include="ChituDataTypes.h" />
     <ClInclude Include="ChituLayerImage.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="ChituGCode.h" />
     <ClInclude Include="ChituPreviewImage.h" />
     <ClInclude Include="ChituFileHeader.h" />
+    <ClInclude Include="Helpers.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="stb_image_write.h" />
   </ItemGroup>

@@ -56,6 +56,7 @@ struct ChituPreviewImage
 		: decodedWidth(width), decodedHeight(height), imgStartAddress(address), encodedImgSize(size)
 	{
 		encodedData = new char[encodedImgSize];
+		std::cout << "\t> reading from address " << imgStartAddress << " to " << imgStartAddress + encodedImgSize << std::endl;
 		fseek(cFile, address, SEEK_SET);
 		fread(encodedData, sizeof(char), size, cFile);
 	}

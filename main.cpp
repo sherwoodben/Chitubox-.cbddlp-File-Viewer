@@ -21,54 +21,34 @@ int main() {
 
 	//string to store the file name, hard
 	//coded for now
-	std::string fileName = "INPUT\\_cat.cbddlp";
+	std::string fileName = "INPUT\\smallCat.cbddlp";
 
 	//log file information
 	std::string logFileName = "OUTPUT\\log.txt";
-	std::ofstream logStream(logFileName.c_str(), std::ofstream::out);
-
-	//check that the log stream didn't fail
-	if (logStream.fail())
-	{
-		//just quit the program if it did
-		return -1;
-	}
-
-	//"beautify" the log file
-	logStream << "Output for '" << fileName << "'" << std::endl;
 
 	//create the actual Chitu File object (for .cbddlp files)
-	ChituFile newCFile(fileName, &logStream);
-
-	//console output
-	std::cout << "> Initiating File Read" << std::endl;
+	ChituFile newCFile(fileName);
 
 	//try to initiate the file
 	if (!newCFile.InitFile())
 	{
-		//if it fails, log it
-		logStream << "Unable to read '" << newCFile.GetFilePath() << "'" << std::endl;
-		logStream.close();
-
+		//if it fails, say something!
+		std::cout << "Unable to read '" << newCFile.GetFilePath() << "'" << std::endl;
 		//then quit
 		return -1;
 	}
 
 	//console output
-	std::cout << "> Initiating File Load" << std::endl;
+	std::cout << "> Initiating File Read..." << std::endl;
 
 	//load the file
 	newCFile.LoadFile();
 
 	//console output
-	std::cout << "> Generating Report" << std::endl;
+	std::cout << "> Generating Report..." << std::endl;
 
 	//generate a report, also saves images to disk
-	newCFile.Report();
-
-	//we've done everything we need to with
-	//the log file so we close it
-	logStream.close();
+	newCFile.Report(logFileName);
 
 	//console output
 	std::cout << "> Finished." << std::endl;

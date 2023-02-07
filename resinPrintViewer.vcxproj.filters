@@ -65,5 +65,11 @@
     <ClInclude Include="ChituLayerImage.h">
       <Filter>Header Files\ChituFileComponents</Filter>
     </ClInclude>
+    <ClInclude Include="ChituCopyrightData.h">
+      <Filter>Header Files\ChituFileComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers.h">
+      <Filter>Header Files\ChituFileComponents</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

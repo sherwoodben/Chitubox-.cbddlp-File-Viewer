@@ -119,8 +119,8 @@ struct ChituGCode : public ChituDataBlock
 	long int SIZE_OF_GCODE_LINE = 36;
 	long int numberOfLayers = -1;
 
-	ChituGCode(std::FILE* readFrom, long int offset, long int bytesToRead, long int numLayers)
-		: ChituDataBlock(readFrom, offset, bytesToRead), numberOfLayers(numLayers)
+	ChituGCode(std::FILE* readFrom, long int readOffset, long int bytesToRead, long int numLayers)
+		: ChituDataBlock(readFrom, readOffset, bytesToRead), numberOfLayers(numLayers)
 	{
 		InitGCodeLines();
 		InitInterLayerGCodeLines();

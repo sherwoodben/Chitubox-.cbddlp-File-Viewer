@@ -8,7 +8,7 @@ bool ChituFile::InitFile()
 	//handle error opening the file
 	if (cFileError != 0)
 	{
-		if (logStream) *logStream << "Error opening '" << filePath << "'" << std::endl;
+		std::cout << "Error opening '" << filePath << "'" << std::endl;
 
 		return false;
 	}
@@ -19,9 +19,9 @@ bool ChituFile::InitFile()
 
 		//handles the case where we can't read the size of the file for some
 		//reason
-		if (ec && logStream)
+		if (ec)
 		{
-			if (logStream) *logStream << "Error getting size of file " << filePath << "." << std::endl;
+			std::cout << "Error getting size of file " << filePath << "." << std::endl;
 
 			return false;
 		}
@@ -50,9 +50,19 @@ void ChituFile::LoadFile()
 		cSmallPreviewHeader->GetWidth(), cSmallPreviewHeader->GetHeight(),
 		cSmallPreviewHeader->GetAddress(), cSmallPreviewHeader->GetSize());
 
+	//load unknown data (the one right before the copyright)
+	cUnknownData = new ChituUnknownDataBlock(cFile, cFileHeader->GetUnknownDataAddress(), UNKNOWN_DATA_SIZE);
+
+	//load copyright:
+	cCopyrightData = new ChituCopyRightData(cFile,
+		cUnknownData->GetCopyrightAddress(), cUnknownData->GetCopyrightDataSize());
+
+	//load mystery data (the one right after the copyright)
+	cMysteryData = new ChituMysteryDataBlock(cFile, cUnknownData->GetAddressOfMysteryData(), MYSTERY_DATA_SIZE);
+
 	//load G Code:
 	cGCode = new ChituGCode(cFile,
-		cFileHeader->GetGCodeAddress(), cFileSize - cFileHeader->GetGCodeAddress(), 
+		cFileHeader->GetGCodeAddress(), cFileSize - cFileHeader->GetGCodeAddress(),
 		cFileHeader->GetNumLayers());
 
 	//load layer images:
@@ -62,22 +72,41 @@ void ChituFile::LoadFile()
 	//close the file since we've read everything we need
 	//to from it
 	fclose(cFile);
+	std::cout << "> File Read Complete:" << std::endl;
+	std::cout << "\t> file contents are stored in memory" << std::endl;
+	std::cout << "\t> file has been closed" << std::endl;
 }
 
-void ChituFile::Report()
+void ChituFile::Report(std::string logFileName)
 {
-	*logStream << "\nFile Header:" << std::endl;
-	cFileHeader->ReportData(logStream, 1);
-	*logStream << "\nLarge Preview Image Header:" << std::endl;
-	cLargePreviewHeader->ReportData(logStream, 1);
-	*logStream << "\nSmall Preview Image Header:" << std::endl;
-	cSmallPreviewHeader->ReportData(logStream, 1);
-	*logStream << "\nPreview Images:" << std::endl;
+	std::ofstream logStream(logFileName.c_str(), std::ofstream::out);
+
+	//check that the log stream didn't fail,
+	//if it did we won't even bother doing anything else
+	if (logStream.fail()) return;
+
+
+	logStream << "\nFile Header:" << std::endl;
+	cFileHeader->ReportData(&logStream, 1);
+	logStream << "\nLarge Preview Image Header:" << std::endl;
+	cLargePreviewHeader->ReportData(&logStream, 1);
+	logStream << "\nSmall Preview Image Header:" << std::endl;
+	cSmallPreviewHeader->ReportData(&logStream, 1);
+	logStream << "\nPreview Images:" << std::endl;
 	SavePreviewImages();
-	*logStream << "\nG-Code:" << std::endl;
-	cGCode->ReportData(logStream, 1);
-	*logStream << "\nLayer Images:" << std::endl;
-	cLayerImageManager->ReportImages(logStream, 1);
+	logStream << "\nUnknown Data:" << std::endl;
+	cUnknownData->ReportData(&logStream, 1);
+	logStream << "\nCopyright Notice:" << std::endl;
+	cCopyrightData->ReportData(&logStream, 1);
+	logStream << "\nMystery Data:" << std::endl;
+	cMysteryData->ReportData(&logStream, 1);
+	logStream << "\nG-Code:" << std::endl;
+	cGCode->ReportData(&logStream, 1);
+	logStream << "\nLayer Images:" << std::endl;
+	cLayerImageManager->ReportImages(&logStream, 1);
+
+	//we're done logging, so we can close the log
+	logStream.close();
 }
 
 void ChituFile::SavePreviewImages()
@@ -85,19 +114,19 @@ void ChituFile::SavePreviewImages()
 	
 	if (!cLargePreviewImage->SaveImage())
 	{
-		*logStream << "\tLarge Preview Image could not be saved." << std::endl;
+		std::cout << "\tLarge Preview Image could not be saved." << std::endl;
 	}
 	else
 	{
-		*logStream << "\tLarge Preview Image successfully saved to disk." << std::endl;
+		std::cout << "\tLarge Preview Image successfully saved to disk." << std::endl;
 	}
 
 	if (!cSmallPreviewImage->SaveImage())
 	{
-		*logStream << "\tSmall Preview Image could not be saved." << std::endl;
+		std::cout << "\tSmall Preview Image could not be saved." << std::endl;
 	}
 	else
 	{
-		*logStream << "\tSmall Preview Image successfully saved to disk." << std::endl;
+		std::cout << "\tSmall Preview Image successfully saved to disk." << std::endl;
 	}
 }

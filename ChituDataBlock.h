@@ -23,6 +23,7 @@ struct ChituDataBlock
 	ChituDataBlock(std::FILE* readFrom, long int readOffset, long int bytesToRead) : size{bytesToRead}, offset{readOffset}
 	{
 		rawData = new char[size];
+		std::cout << "\t> reading from address " << readOffset << " to " << readOffset + bytesToRead << std::endl;
 		fseek(readFrom, readOffset, SEEK_SET);
 		fread(rawData, sizeof(char), size, readFrom);
 	}

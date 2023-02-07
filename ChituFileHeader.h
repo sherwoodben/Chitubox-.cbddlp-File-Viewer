@@ -66,8 +66,11 @@ struct ChituFileHeader : public ChituDataBlock
 	
 	long int GetLargePreviewHeaderAddress() { return GetValueByKey<long int>("LARGE_PREVIEW_ADDRESS");}
 	long int GetSmallPreviewHeaderAddress() { return GetValueByKey<long int>("SMALL_PREVIEW_ADDRESS");}
-	long int GetGCodeAddress() { return GetValueByKey<long int>("G_CODE_ADDRESS"); }
-	long int GetNumLayers() { return GetValueByKey<long int>("NUMBER_OF_LAYERS"); }
-	long int GetScreenX_PX() { return GetValueByKey<long int>("SCREEN_X_PX"); }
-	long int GetScreenY_PX() { return GetValueByKey<long int>("SCREEN_Y_PX"); }
+	long int GetUnknownDataAddress() { return GetValueByKey<long int>("UNKNOWN_DATA_ADDRESS"); }
+	long int GetCopyrightAddress() { return GetValueByKey<long int>("COPYRIGHT_ADDRESS");}
+	long int GetCopyrightOffset() { return GetValueByKey<long int>("COPYRIGHT_OFFSET");}
+	long int GetGCodeAddress() { return GetValueByKey<long int>("G_CODE_ADDRESS");}
+	long int GetNumLayers() { return GetValueByKey<long int>("NUMBER_OF_LAYERS");}
+	long int GetScreenX_PX() { return GetValueByKey<long int>("SCREEN_X_PX");}
+	long int GetScreenY_PX() { return GetValueByKey<long int>("SCREEN_Y_PX");}
 };
