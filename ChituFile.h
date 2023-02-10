@@ -11,6 +11,9 @@
 #include "ChituCopyrightData.h"
 #include "Helpers.h"
 
+//this is for .cdbblp files; need to figure
+//out how I want to handle the possibilty of
+//dealing with .ctb files.
 class ChituFile
 {
 private:

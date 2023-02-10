@@ -25,11 +25,15 @@ struct ChituFileHeader : public ChituDataBlock
 		G_CODE_POINTER = 0x00000040,
 		NUM_LAYERS = 0x00000044,
 		SMALL_IMAGE_PREVIEW = 0x00000048,
-		NEW_DATA_POINTER = 0x00000054,
+		TIME_ESTIMATE = 0x0000004C,
+		MYSTERY_INT_1 = 0x00000050, //what is this???
+		SUBDATA_1_ADDRESS = 0x00000054,
+		SIZE_OF_SUBDATA_1 = 0x00000058,
+		MYSTERY_INT_3 = 0x0000005C, //what is this???
 		LIGHT_PWM = 0x00000060,
 		BOTTOM_LIGHT_PWM = 0x00000062,
-		COPYRIGHT_POINTER = 0x00000068,
-		COPYRIGHT_OFFSET = 0x0000006C
+		SUBDATA_2_ADDRESS = 0x00000068,
+		SUBDATA_2_SIZE = 0x0000006C
 	};
 
 	ChituFileHeader(std::FILE* readFrom, long int bytesToRead) 
@@ -56,19 +60,25 @@ struct ChituFileHeader : public ChituDataBlock
 		RegisterData(new ChituAddress(rawData, G_CODE_POINTER, "G-Code Address"), "G_CODE_ADDRESS");
 		RegisterData(new ChituInt(rawData, NUM_LAYERS, "Number of Layers"), "NUMBER_OF_LAYERS");
 		RegisterData(new ChituAddress(rawData, SMALL_IMAGE_PREVIEW, "Small Image Preview Address"), "SMALL_PREVIEW_ADDRESS");
-		RegisterData(new ChituAddress(rawData, NEW_DATA_POINTER, "Address of Unknown Data"), "UNKNOWN_DATA_ADDRESS");
+		RegisterData(new ChituInt(rawData, TIME_ESTIMATE, "Time Estimate (s)"), "TIME_ESTIMATE");
+		RegisterData(new ChituInt(rawData, MYSTERY_INT_1), "MYSTERY_INT_1");
+		RegisterData(new ChituAddress(rawData, SUBDATA_1_ADDRESS, "Subdata 1 Address"), "SUBDATA_1_ADDRESS");
+		RegisterData(new ChituInt(rawData, SIZE_OF_SUBDATA_1, "Subdata 1 Size (bytes)"), "SUBDATA_1_SIZE");
+		RegisterData(new ChituInt(rawData, MYSTERY_INT_3), "MYSTERY_INT_3");
 		RegisterData(new ChituShort(rawData, LIGHT_PWM, "Light PWM"), "LIGHT_PWM");
 		RegisterData(new ChituShort(rawData, BOTTOM_LIGHT_PWM, "Bottom Light PWM"), "B_LIGHT_PWM");
-		RegisterData(new ChituAddress(rawData, COPYRIGHT_POINTER, "Address of Copyright Notice"), "COPYRIGHT_ADDRESS");
-		RegisterData(new ChituInt(rawData, COPYRIGHT_OFFSET, "Offset for Copyright Notice"), "COPYRIGHT_OFFSET");
+		RegisterData(new ChituAddress(rawData, SUBDATA_2_ADDRESS, "Subdata 2 Address"), "SUBDATA_2_ADDRESS");
+		RegisterData(new ChituInt(rawData, SUBDATA_2_SIZE, "Subdata 2 Size (bytes)"), "SUBDATA_2_SIZE");
+		
 	}
 
 	
 	long int GetLargePreviewHeaderAddress() { return GetValueByKey<long int>("LARGE_PREVIEW_ADDRESS");}
 	long int GetSmallPreviewHeaderAddress() { return GetValueByKey<long int>("SMALL_PREVIEW_ADDRESS");}
-	long int GetUnknownDataAddress() { return GetValueByKey<long int>("UNKNOWN_DATA_ADDRESS"); }
-	long int GetCopyrightAddress() { return GetValueByKey<long int>("COPYRIGHT_ADDRESS");}
-	long int GetCopyrightOffset() { return GetValueByKey<long int>("COPYRIGHT_OFFSET");}
+	long int GetSubdata1Address() { return GetValueByKey<long int>("SUBDATA_1_ADDRESS"); }
+	long int GetSubdata1Size() { return GetValueByKey<long int>("SUBDATA_1_SIZE"); }
+	long int GetSubdata2Address() { return GetValueByKey<long int>("SUBDATA_2_ADDRESS");}
+	long int GetSubdata2Size() { return GetValueByKey<long int>("SUBDATA_2_SIZE");}
 	long int GetGCodeAddress() { return GetValueByKey<long int>("G_CODE_ADDRESS");}
 	long int GetNumLayers() { return GetValueByKey<long int>("NUMBER_OF_LAYERS");}
 	long int GetScreenX_PX() { return GetValueByKey<long int>("SCREEN_X_PX");}

@@ -51,14 +51,16 @@ void ChituFile::LoadFile()
 		cSmallPreviewHeader->GetAddress(), cSmallPreviewHeader->GetSize());
 
 	//load unknown data (the one right before the copyright)
-	cUnknownData = new ChituUnknownDataBlock(cFile, cFileHeader->GetUnknownDataAddress(), UNKNOWN_DATA_SIZE);
+	cUnknownData = new ChituUnknownDataBlock(cFile,
+		cFileHeader->GetSubdata1Address(), UNKNOWN_DATA_SIZE);
+
+	//load mystery data (the one right after the copyright)
+	cMysteryData = new ChituMysteryDataBlock(cFile,
+		cUnknownData->GetAddressOfMysteryData(), MYSTERY_DATA_SIZE);
 
 	//load copyright:
 	cCopyrightData = new ChituCopyRightData(cFile,
-		cUnknownData->GetCopyrightAddress(), cUnknownData->GetCopyrightDataSize());
-
-	//load mystery data (the one right after the copyright)
-	cMysteryData = new ChituMysteryDataBlock(cFile, cUnknownData->GetAddressOfMysteryData(), MYSTERY_DATA_SIZE);
+		cMysteryData->GetCopyrightAddress(), cMysteryData->GetCopyrightDataSize());
 
 	//load G Code:
 	cGCode = new ChituGCode(cFile,
