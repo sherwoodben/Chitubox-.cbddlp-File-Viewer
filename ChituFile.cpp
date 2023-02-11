@@ -71,6 +71,8 @@ void ChituFile::LoadFile()
 	cLayerImageManager = new ChituLayerImageManager(&(cGCode->interLayerGCodeLines),
 		cFileHeader->GetScreenX_PX(), cFileHeader->GetScreenY_PX());
 
+	cLayerImageManager->LoadImages();
+
 	//close the file since we've read everything we need
 	//to from it
 	fclose(cFile);
@@ -78,6 +80,13 @@ void ChituFile::LoadFile()
 	std::cout << "\t> file contents are stored in memory" << std::endl;
 	std::cout << "\t> file has been closed" << std::endl;
 }
+
+void ChituFile::DecodeFile()
+{
+	cLayerImageManager->DecodeImages();
+}
+
+
 
 void ChituFile::Report(std::string logFileName)
 {
@@ -131,4 +140,9 @@ void ChituFile::SavePreviewImages()
 	{
 		std::cout << "\tSmall Preview Image successfully saved to disk." << std::endl;
 	}
+}
+
+void ChituFile::SaveLayerImages()
+{
+	cLayerImageManager->SaveImages();
 }

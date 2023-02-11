@@ -165,6 +165,11 @@ struct ChituDataBlock
 
 			ChituData* datum = data[*dataEntry];
 
+			if (datum == NULL)
+			{
+				break;
+			}
+
 			for (int i = 0; i < tabLevel; i++) tabString.append(1, '\t');
 
 			*targetStream << tabString << datum->name << ": ";

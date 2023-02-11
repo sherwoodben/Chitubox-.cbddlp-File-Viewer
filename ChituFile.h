@@ -76,10 +76,14 @@ public:
 
 	void LoadFile();
 
+	void DecodeFile();
+
 	void Report(std::string logFileName);
 
 	std::string GetFilePath() { return filePath; }
 
 	void SavePreviewImages();
+
+	void SaveLayerImages();
 	
 };

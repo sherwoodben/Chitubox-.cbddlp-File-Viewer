@@ -18,6 +18,7 @@ int main() {
 	//folder again:
 	std::filesystem::remove_all("OUTPUT");
 	std::filesystem::create_directory("OUTPUT");
+	std::filesystem::create_directory("OUTPUT\\LAYER IMAGES");
 
 	//string to store the file name (built from input)
 	std::string fileName = "INPUT\\";
@@ -34,6 +35,7 @@ int main() {
 	//log file information
 	std::string logFileName = "OUTPUT\\log.txt";
 
+	//start timer
 	auto startTime = std::chrono::steady_clock::now();
 
 	//create the actual Chitu File object (for .cbddlp files ONLY right now)
@@ -49,12 +51,29 @@ int main() {
 	}
 
 	//console output
-	std::cout << "> Initiating File Read..." << std::endl;
+	std::cout << "> Loading File..." << std::endl;
 
 	//load the file
 	newCFile.LoadFile();
 
-	auto readEndTime = std::chrono::steady_clock::now();
+
+	auto loadEndTime = std::chrono::steady_clock::now();
+
+	//console output
+	std::cout << "> Decoding Data..." << std::endl;
+
+	//generate a report, also saves images to disk
+	newCFile.DecodeFile();
+
+	auto decodeEndTime = std::chrono::steady_clock::now();
+
+	//console output
+	std::cout << "> Saving Layer Images..." << std::endl;
+
+	//generate a report, also saves images to disk
+	newCFile.SaveLayerImages();
+
+	auto saveLayerImagesEndTime = std::chrono::steady_clock::now();
 
 	//console output
 	std::cout << "> Generating Report..." << std::endl;
@@ -67,15 +86,22 @@ int main() {
 	//console output
 	std::cout << "> Finished." << std::endl;
 
-	double readDiff = std::chrono::duration_cast<std::chrono::microseconds>(readEndTime - startTime).count();
-	double writeDiff = std::chrono::duration_cast<std::chrono::microseconds>(writeEndTime - readEndTime).count();
+	//timing stuff
+	double loadDiff = std::chrono::duration_cast<std::chrono::microseconds>(loadEndTime - startTime).count();
+	double decodeDiff = std::chrono::duration_cast<std::chrono::microseconds>(decodeEndTime - loadEndTime).count();
+	double saveLayerImageDiff = std::chrono::duration_cast<std::chrono::microseconds>(saveLayerImagesEndTime - decodeEndTime).count();
+	double writeDiff = std::chrono::duration_cast<std::chrono::microseconds>(writeEndTime - saveLayerImagesEndTime).count();
 	double totalDiff = std::chrono::duration_cast<std::chrono::microseconds>(writeEndTime - startTime).count();
 
-	double readPerc = (readDiff / totalDiff) * 100;
+	double loadPerc = (loadDiff / totalDiff) * 100;
+	double decodePerc = (decodeDiff / totalDiff) * 100;
+	double saveLayerImagePerc = (saveLayerImageDiff / totalDiff) * 100;
 	double writePerc = (writeDiff / totalDiff) * 100;
 
 	//console output
-	std::cout << ">File read in " << std::chrono::duration <double, std::milli>(readDiff).count() << " us (" << readPerc << "%)" << std::endl;
+	std::cout << ">File read in " << std::chrono::duration <double, std::milli>(loadDiff).count() << " us (" << loadPerc << "%)" << std::endl;
+	std::cout << ">Decoded in " << std::chrono::duration <double, std::milli>(decodeDiff).count() << " us (" << decodePerc << "%)" << std::endl;
+	std::cout << ">Layer Images Saved in " << std::chrono::duration <double, std::milli>(saveLayerImageDiff).count() << " us (" << saveLayerImagePerc << "%)" << std::endl;
 	std::cout << ">Log written in " << std::chrono::duration <double, std::milli>(writeDiff).count() << " us (" << writePerc << "%)" << std::endl;
 	std::cout << ">Total " << std::chrono::duration <double, std::milli>(totalDiff).count() << " us" << std::endl;
 	//end of program

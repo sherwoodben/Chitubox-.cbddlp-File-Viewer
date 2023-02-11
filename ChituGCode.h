@@ -31,6 +31,7 @@ struct ChituGCodeLine : public ChituDataBlock
 
 	ChituGCodeLine(const ChituGCodeLine& copyFrom) : ChituDataBlock(copyFrom)
 	{
+		InitGCodeLine();
 	}
 
 	void InitGCodeLine()
@@ -84,6 +85,7 @@ struct ChituInterLayerGCodeLine : public ChituDataBlock
 
 	ChituInterLayerGCodeLine(const ChituInterLayerGCodeLine& copyFrom) : ChituDataBlock(copyFrom)
 	{
+		InitInterLayerGCodeLine();
 	}
 
 	void InitInterLayerGCodeLine()
