@@ -149,6 +149,14 @@ struct ChituLayerImageManager
 		}
 	}
 
+	//function that is used to output information about the layer images
+	//to the log file (or console if that happens to be the target stream)
+
+	/* WARNING:	for large screens, this can make the program slow. It does work, but I
+	recommend disabling it to speed up development. After all, it's not likely
+	the user will need to poke around the hex representation of the images so
+	it's probably not crucial to include it in the log file. Useful for small images
+	(16px x 16px) to see what the compression algorithm looks like though!*/
 	void ReportImages(std::ofstream* targetStream, int tabLevel = 0)
 	{
 		std::string tabString = "";
@@ -158,15 +166,7 @@ struct ChituLayerImageManager
 		for (int i = 0; i < layerImages.size(); i++)
 		{
 			*targetStream << tabString << "Layer " << i + 1 << " Image:" << std::endl;
-
-			/* WARNING:	for large screens, this can make the program slow. It does work, but I
-						recommend disabling it to speed up development. After all, it's not likely
-						the user will need to poke around the hex representation of the images so
-						it's probably not crucial to include it in the log file. Useful for small images
-						(16px x 16px) to see what the compression algorithm looks like though!*/
-
-			//ONLY ENABLED FOR PRESENTATION PURPOSES
-			//RawDataToStream((char*)layerImages.at(i)->decodedImg, layerImages.at(i)->decodedImgSize, targetStream, tabLevel + 1);
+			RawDataToStream((char*)layerImages.at(i)->decodedImg, layerImages.at(i)->decodedImgSize, targetStream, tabLevel + 1);
 		}
 	}
 
@@ -186,7 +186,7 @@ struct ChituLayerImageManager
 			success = layerImages.at(i)->SaveImage() && success;
 		}
 
-		if (success) std::cout << "All layer images successfully saved." << std::endl;
-		else std::cout << "Error saving at least one layer image." << std::endl;
+		if (success) std::cout << "\t> All layer images successfully saved." << std::endl;
+		else std::cout << "\t> Error saving at least one layer image." << std::endl;
 	}
 };

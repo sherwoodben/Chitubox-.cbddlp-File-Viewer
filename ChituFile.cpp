@@ -8,7 +8,7 @@ bool ChituFile::InitFile()
 	//handle error opening the file
 	if (cFileError != 0)
 	{
-		std::cout << "Error opening '" << filePath << "'" << std::endl;
+		std::cout << "> Error opening '" << filePath << "'" << std::endl;
 
 		return false;
 	}
@@ -21,7 +21,7 @@ bool ChituFile::InitFile()
 		//reason
 		if (ec)
 		{
-			std::cout << "Error getting size of file " << filePath << "." << std::endl;
+			std::cout << "> Error getting size of file " << filePath << "." << std::endl;
 
 			return false;
 		}
@@ -67,7 +67,7 @@ void ChituFile::LoadFile()
 		cFileHeader->GetGCodeAddress(), cFileSize - cFileHeader->GetGCodeAddress(),
 		cFileHeader->GetNumLayers());
 
-	//load layer images:
+	//load layer images (after creating the layer image manager):
 	cLayerImageManager = new ChituLayerImageManager(&(cGCode->interLayerGCodeLines),
 		cFileHeader->GetScreenX_PX(), cFileHeader->GetScreenY_PX());
 
@@ -81,8 +81,11 @@ void ChituFile::LoadFile()
 	std::cout << "\t> file has been closed" << std::endl;
 }
 
+//decodes the preview images and layer images
 void ChituFile::DecodeFile()
 {
+	cLargePreviewImage->DecodeImage();
+	cSmallPreviewImage->DecodeImage();
 	cLayerImageManager->DecodeImages();
 }
 
@@ -103,8 +106,6 @@ void ChituFile::Report(std::string logFileName)
 	cLargePreviewHeader->ReportData(&logStream, 1);
 	logStream << "\nSmall Preview Image Header:" << std::endl;
 	cSmallPreviewHeader->ReportData(&logStream, 1);
-	logStream << "\nPreview Images:" << std::endl;
-	SavePreviewImages();
 	logStream << "\nUnknown Data:" << std::endl;
 	cUnknownData->ReportData(&logStream, 1);
 	logStream << "\nCopyright Notice:" << std::endl;
@@ -113,8 +114,15 @@ void ChituFile::Report(std::string logFileName)
 	cMysteryData->ReportData(&logStream, 1);
 	logStream << "\nG-Code:" << std::endl;
 	cGCode->ReportData(&logStream, 1);
-	logStream << "\nLayer Images:" << std::endl;
-	cLayerImageManager->ReportImages(&logStream, 1);
+
+	//DISABLE THE FOLLOWING TWO LINES TO SAVE A LOT OF TIME:
+	//we already know the image decoding algorithm works--
+	//we don't need to print the raw data anymore. Just keeping
+	//it here for the sake of having more information available
+	//for debugging.
+
+		//logStream << "\nLayer Images:" << std::endl;
+		//cLayerImageManager->ReportImages(&logStream, 1);
 
 	//we're done logging, so we can close the log
 	logStream.close();
@@ -125,24 +133,30 @@ void ChituFile::SavePreviewImages()
 	
 	if (!cLargePreviewImage->SaveImage())
 	{
-		std::cout << "\tLarge Preview Image could not be saved." << std::endl;
+		std::cout << "\t> Large Preview Image could not be saved." << std::endl;
 	}
 	else
 	{
-		std::cout << "\tLarge Preview Image successfully saved to disk." << std::endl;
+		std::cout << "\t> Large Preview Image successfully saved to disk." << std::endl;
 	}
 
 	if (!cSmallPreviewImage->SaveImage())
 	{
-		std::cout << "\tSmall Preview Image could not be saved." << std::endl;
+		std::cout << "\t> Small Preview Image could not be saved." << std::endl;
 	}
 	else
 	{
-		std::cout << "\tSmall Preview Image successfully saved to disk." << std::endl;
+		std::cout << "\t> Small Preview Image successfully saved to disk." << std::endl;
 	}
 }
 
 void ChituFile::SaveLayerImages()
 {
-	cLayerImageManager->SaveImages();
+	//DISABLE THE FOLLOWING LINE TO SAVE A LOT OF TIME:
+	//we already know the image decoding algorithm works--
+	//we don't need to save the raw data anymore. Just keeping
+	//it here for the sake of having more information available
+	//for debugging.
+	
+		//cLayerImageManager->SaveImages();
 }
