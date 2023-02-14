@@ -12,6 +12,16 @@ of generating lattices*/
 
 #include "ChituFile.h"
 
+
+//CHANGE THESE TO CHANGE THE "DEBUG"
+//LEVEL--can make flags eventually but
+//will probably rework the whole
+//main loop eventually so this works just dandy
+//for now
+const bool SAVE_PREVIEW_IMAGES = false;
+const bool SAVE_LAYER_IMAGES = false;
+const bool GENERATE_REPORT = true;
+
 int main() {
 
 	//clear the output folder to start, then make the
@@ -29,11 +39,11 @@ int main() {
 	
 	std::cin >> temp;
 
-	//JUST FOR WINDOWS, JUST FOR NOW
-	system("CLS");
-
 	fileName.append(temp);
 	fileName.append(".cbddlp");
+
+	//JUST FOR WINDOWS, JUST FOR NOW
+	system("CLS");
 
 	//log file information
 	std::string logFileName = "OUTPUT\\log.txt";
@@ -59,7 +69,7 @@ int main() {
 	//load the file
 	newCFile.LoadFile();
 
-
+	//more timing stuff
 	auto loadEndTime = std::chrono::steady_clock::now();
 
 	//console output
@@ -68,23 +78,37 @@ int main() {
 	//decode all the data
 	newCFile.DecodeFile();
 
+	//more timing stuff
 	auto decodeEndTime = std::chrono::steady_clock::now();
 
-	//console output
-	std::cout << "> Saving Images..." << std::endl;
-
 	//save images to disk
-	newCFile.SavePreviewImages();
-	newCFile.SaveLayerImages();
-
+	if (SAVE_PREVIEW_IMAGES)
+	{
+		//console output
+		std::cout << "> Saving Preview Images..." << std::endl;
+		newCFile.SavePreviewImages();
+	}
+	
+	if (SAVE_LAYER_IMAGES)
+	{
+		//console output
+		std::cout << "> Saving Layer Images..." << std::endl;
+		newCFile.SaveLayerImages();
+	}
+	
+	//more timing stuff
 	auto saveLayerImagesEndTime = std::chrono::steady_clock::now();
+	
+	if (GENERATE_REPORT)
+	{
+		//console output
+		std::cout << "> Generating Report..." << std::endl;
 
-	//console output
-	std::cout << "> Generating Report..." << std::endl;
-
-	//generate a report
-	newCFile.Report(logFileName);
-
+		//generate a report
+		newCFile.Report(logFileName);
+	}
+	
+	//more timing stuff
 	auto writeEndTime = std::chrono::steady_clock::now();
 
 	//console output
@@ -97,7 +121,7 @@ int main() {
 	double writeDiff = std::chrono::duration_cast<std::chrono::microseconds>(writeEndTime - saveLayerImagesEndTime).count();
 	double totalDiff = std::chrono::duration_cast<std::chrono::microseconds>(writeEndTime - startTime).count();
 
-	//more timing stuff
+	//even more timing stuff
 	double loadPerc = (loadDiff / totalDiff) * 100;
 	double decodePerc = (decodeDiff / totalDiff) * 100;
 	double saveLayerImagePerc = (saveLayerImageDiff / totalDiff) * 100;
@@ -106,9 +130,10 @@ int main() {
 	//console output
 	std::cout << "\n> File read in " << std::chrono::duration <double, std::milli>(loadDiff).count() << " us (" << loadPerc << "%)" << std::endl;
 	std::cout << "> Decoded in " << std::chrono::duration <double, std::milli>(decodeDiff).count() << " us (" << decodePerc << "%)" << std::endl;
-	std::cout << "> Layer Images Saved in " << std::chrono::duration <double, std::milli>(saveLayerImageDiff).count() << " us (" << saveLayerImagePerc << "%)" << std::endl;
-	std::cout << "> Log written in " << std::chrono::duration <double, std::milli>(writeDiff).count() << " us (" << writePerc << "%)" << std::endl;
+	if (SAVE_PREVIEW_IMAGES || SAVE_LAYER_IMAGES) std::cout << "> Images Saved in " << std::chrono::duration <double, std::milli>(saveLayerImageDiff).count() << " us (" << saveLayerImagePerc << "%)" << std::endl;
+	if (GENERATE_REPORT) std::cout << "> Log written in " << std::chrono::duration <double, std::milli>(writeDiff).count() << " us (" << writePerc << "%)" << std::endl;
 	std::cout << "> Total " << std::chrono::duration <double, std::milli>(totalDiff).count() << " us" << std::endl;
+	
 	//end of program
 	return 0;
 }

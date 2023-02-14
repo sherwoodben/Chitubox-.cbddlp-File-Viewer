@@ -1,5 +1,6 @@
 #include "ChituFile.h"
 
+//initializes the file for reading
 bool ChituFile::InitFile()
 {
 	//try to open the file in read mode with the binary flag
@@ -27,9 +28,11 @@ bool ChituFile::InitFile()
 		}
 	}
 
+	//we successfully did everything we needed!
 	return true;
 }
 
+//load/store the raw data into program memory
 void ChituFile::LoadFile()
 {
 	//load the file header first:
@@ -71,47 +74,72 @@ void ChituFile::LoadFile()
 	cLayerImageManager = new ChituLayerImageManager(cGCode->interLayerGCodeLines,
 		cFileHeader->GetScreenX_PX(), cFileHeader->GetScreenY_PX());
 
-	cLayerImageManager->LoadImages();
+	//actually load the layer images (raw data)
+	cLayerImageManager->InitImages();
 
 	//close the file since we've read everything we need
 	//to from it
 	fclose(cFile);
+
+	//output some stuff to the console
 	std::cout << "> File Read Complete:" << std::endl;
 	std::cout << "\t> file contents are stored in memory" << std::endl;
 	std::cout << "\t> file has been closed" << std::endl;
 }
 
-//decodes the preview images and layer images
+//decode the stored raw data
 void ChituFile::DecodeFile()
 {
+	//preview images
 	cLargePreviewImage->DecodeImage();
 	cSmallPreviewImage->DecodeImage();
+
+	//layer images
 	cLayerImageManager->DecodeImages();
 }
 
-
-
+//generate a report with useful information
+//about the file
 void ChituFile::Report(std::string logFileName)
 {
+	//create the actual log stream
 	std::ofstream logStream(logFileName.c_str(), std::ofstream::out);
 
 	//check that the log stream didn't fail,
 	//if it did we won't even bother doing anything else
 	if (logStream.fail()) return;
 
+	//TO DO: replace all the std::endl with '\n' (in the whoooooole
+	//project, not just this file); should in theory
+	//make things nicer and prevent flushing of the buffer
+	//which could actually start to be a bottleneck if we
+	//want to generate huge log files
 
+	//File header info
 	logStream << "\nFile Header:" << std::endl;
 	cFileHeader->ReportData(&logStream, 1);
+
+	//Large preview image info
 	logStream << "\nLarge Preview Image Header:" << std::endl;
 	cLargePreviewHeader->ReportData(&logStream, 1);
+
+	//Small preview image info
 	logStream << "\nSmall Preview Image Header:" << std::endl;
 	cSmallPreviewHeader->ReportData(&logStream, 1);
+
+	//Unknown Data
 	logStream << "\nUnknown Data:" << std::endl;
 	cUnknownData->ReportData(&logStream, 1);
+
+	//copyright stuff
 	logStream << "\nCopyright Notice:" << std::endl;
 	cCopyrightData->ReportData(&logStream, 1);
+
+	//mystery data
 	logStream << "\nMystery Data:" << std::endl;
 	cMysteryData->ReportData(&logStream, 1);
+
+	//G-Code info
 	logStream << "\nG-Code:" << std::endl;
 	cGCode->ReportData(&logStream, 1);
 
@@ -121,16 +149,20 @@ void ChituFile::Report(std::string logFileName)
 	//it here for the sake of having more information available
 	//for debugging.
 
-		//logStream << "\nLayer Images:" << std::endl;
-		//cLayerImageManager->ReportImages(&logStream, 1);
+	//Layer Images
+	//logStream << "\nLayer Images:" << std::endl;
+	//cLayerImageManager->ReportImages(&logStream, 1);
 
 	//we're done logging, so we can close the log
 	logStream.close();
 }
 
+
+//saves the large and small preview images
 void ChituFile::SavePreviewImages()
 {
 	
+	//gets the status of the saving of the large preview image
 	if (!cLargePreviewImage->SaveImage())
 	{
 		std::cout << "\t> Large Preview Image could not be saved." << std::endl;
@@ -140,6 +172,7 @@ void ChituFile::SavePreviewImages()
 		std::cout << "\t> Large Preview Image successfully saved to disk." << std::endl;
 	}
 
+	//gets the status of the saving of the small preview image
 	if (!cSmallPreviewImage->SaveImage())
 	{
 		std::cout << "\t> Small Preview Image could not be saved." << std::endl;
@@ -150,6 +183,7 @@ void ChituFile::SavePreviewImages()
 	}
 }
 
+//saves the layer images
 void ChituFile::SaveLayerImages()
 {
 	//DISABLE THE FOLLOWING LINE TO SAVE A LOT OF TIME:
