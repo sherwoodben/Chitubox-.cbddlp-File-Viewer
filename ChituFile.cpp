@@ -68,7 +68,7 @@ void ChituFile::LoadFile()
 		cFileHeader->GetNumLayers());
 
 	//load layer images (after creating the layer image manager):
-	cLayerImageManager = new ChituLayerImageManager(&(cGCode->interLayerGCodeLines),
+	cLayerImageManager = new ChituLayerImageManager(cGCode->interLayerGCodeLines,
 		cFileHeader->GetScreenX_PX(), cFileHeader->GetScreenY_PX());
 
 	cLayerImageManager->LoadImages();
@@ -158,5 +158,5 @@ void ChituFile::SaveLayerImages()
 	//it here for the sake of having more information available
 	//for debugging.
 	
-		//cLayerImageManager->SaveImages();
+	cLayerImageManager->SaveImages();
 }

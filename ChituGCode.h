@@ -148,6 +148,7 @@ struct ChituGCode : public ChituDataBlock
 
 	void InitGCodeLines()
 	{
+		gCodeLines.reserve(numberOfLayers);
 		for (int i = 0; i < numberOfLayers; i++)
 		{
 			//build the g code line for each layer
@@ -157,6 +158,7 @@ struct ChituGCode : public ChituDataBlock
 
 	void InitInterLayerGCodeLines()
 	{
+		interLayerGCodeLines.reserve(numberOfLayers);
 		for (std::vector<ChituGCodeLine*>::iterator line = gCodeLines.begin(); line != gCodeLines.end(); line++)
 		{
 			//get the values we need to be able to read each line:
