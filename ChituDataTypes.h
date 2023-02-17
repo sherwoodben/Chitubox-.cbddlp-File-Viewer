@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 
-#include "FileInterpreter.h"
+#include "ChituFileInterpreter.h"
 
 //possible ChituData types
 enum DataType

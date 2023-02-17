@@ -5,9 +5,9 @@
 template <typename T>
 static void ReadFromBinary(T& readInto, char* data, long int readAt = 0)
 {
-	//std::cout << readAt << std::endl;
+	//std::cout << readAt << "\n";
 	std::memcpy(&readInto, &data[readAt], sizeof(T));
-	//std::cout << readInto << std::endl;
+	//std::cout << readInto << "\n";
 }
 
 struct ChituPointer
@@ -69,5 +69,5 @@ static void RawDataToStream(char* rawData, int bytesToConvert, std::ostream* str
 		}
 		*stream << hexAsString.substr(i * 2, 2) << " ";
 	}
-	*stream << "\n" << std::endl;
+	*stream << "\n\n";
 }

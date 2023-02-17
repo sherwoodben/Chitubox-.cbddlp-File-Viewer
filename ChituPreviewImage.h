@@ -4,70 +4,54 @@
 
 #include "ChituDataBlock.h"
 
-struct ChituPreviewImageHeader : public ChituDataBlock
-{
-	//found by poking around in a hex editor;
-	//slight possibility I've made the wrong
-	//conclusion
-	enum DataOffsets
-	{
-		IMAGE_WIDTH = 0x00000000,
-		IMAGE_HEIGHT = 0x00000004,
-		IMAGE_DATA_ADDRESS = 0x00000008,
-		IMAGE_DATA_SIZE = 0x0000000C
-	};
-
-	ChituPreviewImageHeader(std::FILE* readFrom, long int offset, long int bytesToRead)
-		: ChituDataBlock(readFrom, offset, bytesToRead)
-	{
-		InitImageHeader();
-	}
-
-	//gets the information from the image headers
-	void InitImageHeader()
-	{
-		RegisterData(new ChituInt(rawData, IMAGE_WIDTH, "Image Width (px)"), "IMAGE_X_PX");
-		RegisterData(new ChituInt(rawData, IMAGE_HEIGHT, "Image Height (px)"), "IMAGE_Y_PX");
-		RegisterData(new ChituInt(rawData, IMAGE_DATA_ADDRESS, "Image Data Address"), "IMAGE_ADDRESS");
-		RegisterData(new ChituInt(rawData, IMAGE_DATA_SIZE, "Image Size (bytes)"), "IMAGE_SIZE");
-	}
-
-	~ChituPreviewImageHeader() {};
-
-	long int GetWidth() { return GetValueByKey<long int>("IMAGE_X_PX"); }
-	long int GetHeight() { return GetValueByKey<long int>("IMAGE_Y_PX"); }
-	long int GetAddress() { return GetValueByKey<long int>("IMAGE_ADDRESS"); }
-	long int GetSize() { return GetValueByKey<long int>("IMAGE_SIZE"); }
-};
-
 struct ChituPreviewImage
 {
+	//values for image properties that will
+	//be read in
 	long int decodedWidth = -1;
 	long int decodedHeight = -1;
 	long int imgStartAddress = -1;
 	long int encodedImgSize = -1;
 
+	//the raw encoded image data
 	char* encodedData = nullptr;
 
-	bool converted = false;
+	//the decoded image in RGBA form
 	long int* imageAsRGBA = nullptr;
 
-	ChituPreviewImage(std::FILE* cFile, long int width, long int height, long int address, long int size)
+	//a bool to keep track of if the image is
+	//converted or not
+	bool converted = false;
+	
+	//constructor
+	ChituPreviewImage(std::FILE* readFrom, long int width, long int height, long int address, long int size)
 		: decodedWidth(width), decodedHeight(height), imgStartAddress(address), encodedImgSize(size)
 	{
+		//make the char array of the correct size
 		encodedData = new char[encodedImgSize];
-		std::cout << "\t> reading from address " << imgStartAddress << " to " << imgStartAddress + encodedImgSize << std::endl;
-		fseek(cFile, address, SEEK_SET);
-		fread(encodedData, sizeof(char), size, cFile);
+		//output some info to the console for debugging purposes
+		std::cout << "\t> reading from address " << imgStartAddress << " to " << imgStartAddress + encodedImgSize << "\n";
+		//actually read the file into the encoded data
+		//array
+		fseek(readFrom, address, SEEK_SET);
+		fread(encodedData, sizeof(char), size, readFrom);
 	}
 
+	//destructor
 	~ChituPreviewImage()
 	{
+		//only delete the imageAsRGBA if we actually
+		//created it (i.e. it's been converted)
 		if (converted) delete[] imageAsRGBA;
+
+		//delete the encoded raw data
 		delete[] encodedData;
 	}
 
+	//take the image from raw encoded data
+	//to a long int RBGA representation
 	void DecodeImage();
 
+	//save the image to disk
 	int SaveImage(std::string imgName = "");
 };

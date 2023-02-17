@@ -5,9 +5,9 @@
 #include <iostream>
 
 #include "ChituFileHeader.h"
-#include "ChituPreviewImage.h"
-#include "ChituGCode.h"
-#include "ChituLayerImage.h"
+#include "ChituPreviewImageManager.h"
+#include "ChituGCodeManager.h"
+#include "ChituLayerImageManager.h"
 #include "ChituCopyrightData.h"
 #include "Helpers.h"
 
@@ -42,18 +42,11 @@ private:
 	//a pointer to the "file header"
 	ChituFileHeader* cFileHeader = nullptr;
 	
-	//pointers to the preview image headers and the actual
-	//images:
-	//large preview
-	ChituPreviewImageHeader* cLargePreviewHeader = nullptr;
-	ChituPreviewImage* cLargePreviewImage = nullptr;
-
-	//and small preview
-	ChituPreviewImageHeader* cSmallPreviewHeader = nullptr;
-	ChituPreviewImage* cSmallPreviewImage = nullptr;
+	//a pointer to the preview image manager
+	ChituPreviewImageManager* cPreviewImageManager = nullptr;
 
 	//pointer to the G-Code
-	ChituGCode* cGCode = nullptr;
+	ChituGCodeManager* cGCode = nullptr;
 
 	//pointer to the layer image manager
 	ChituLayerImageManager* cLayerImageManager = nullptr;
@@ -82,10 +75,7 @@ public:
 		//created components of the file with 'new'
 		//so we need to also 'delete' them
 		delete cFileHeader;
-		delete cLargePreviewHeader;
-		delete cLargePreviewImage;
-		delete cSmallPreviewHeader;
-		delete cSmallPreviewImage;
+		delete cPreviewImageManager;
 		delete cGCode;
 		delete cLayerImageManager;
 		delete cUnknownData;

@@ -5,7 +5,7 @@
 #include <vector>
 #include <fstream>
 
-#include "FileInterpreter.h"
+#include "ChituFileInterpreter.h"
 #include"ChituDataTypes.h"
 
 struct ChituDataBlock
@@ -46,7 +46,7 @@ struct ChituDataBlock
 		rawData = new char[size];
 
 		//just some console stuff, will be removed later
-		std::cout << "\t> reading from address " << readOffset << " to " << readOffset + bytesToRead << std::endl;
+		std::cout << "\t> reading from address " << readOffset << " to " << readOffset + bytesToRead << "\n";
 
 		//actually read the contents of the file to the
 		//char array we just made
@@ -206,9 +206,7 @@ struct ChituDataBlock
 	{
 		//Note: we take a "target stream" here, which means we could
 		//use the same function to report data to the console /or/ a file
-		//which is pretty convenient. Eventually need to remove all
-		//std::endl implementations in favor of '\n' but that isn't critical
-		//at the moment.
+		//which is pretty convenient
 
 		//For every key stored in "dataInsertionOrder" we should
 		//report that value
@@ -241,20 +239,20 @@ struct ChituDataBlock
 			//we both want a long int from
 			case DataType::INT:
 			case DataType::ADDRESS:
-				*targetStream << GetValueByKey<long int>(*dataEntry) << std::endl;
+				*targetStream << GetValueByKey<long int>(*dataEntry) << "\n";
 				break;
 			//for ChituFloats, which we want a float from
 			case DataType::FLOAT:
-				*targetStream << GetValueByKey<float>(*dataEntry) << std::endl;
+				*targetStream << GetValueByKey<float>(*dataEntry) << "\n";
 				break;
 			//for ChituShorts, which we want a short int from (maybe even a char,
 			//but we'll update that later (maybe))
 			case DataType::SHORT:
-				*targetStream << GetValueByKey<short int>(*dataEntry) << std::endl;
+				*targetStream << GetValueByKey<short int>(*dataEntry) << "\n";
 				break;
 			//should never get here but if we do then at least give an error indication
 			default:
-				*targetStream << "ERROR" << std::endl;
+				*targetStream << "ERROR\n";
 				break;
 			}
 		}

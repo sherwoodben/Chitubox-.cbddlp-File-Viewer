@@ -19,7 +19,25 @@
     <Filter Include="Header Files\STB_IMAGE">
       <UniqueIdentifier>{2ed7f64b-58c9-4e85-a5ca-5c06ef69aa86}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Utilities">
+    <Filter Include="Header Files\ChituFileComponents\G-Code Components">
+      <UniqueIdentifier>{4e1eeaa0-a549-4fda-bc39-24b2c2cd79c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ChituFileComponents\Layer Image Components">
+      <UniqueIdentifier>{5b40fa26-0c09-437b-bb5b-b755442342b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ChituFileComponents\Preview Image Components">
+      <UniqueIdentifier>{943c06c5-2656-436d-8a46-a2b1bd317a42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ChituFileComponents\File Header Components">
+      <UniqueIdentifier>{8ae8850b-84f2-42a0-b775-d68c10c4ab38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ChituFileComponents\OTHER">
+      <UniqueIdentifier>{cbf5de4d-326d-4af5-8c81-89f8e5a6657a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ChituFileComponents\Copyright Components">
+      <UniqueIdentifier>{2e799ea9-4dc3-42b8-a834-5d30d5abe33f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ChituFileComponents\Utilities">
       <UniqueIdentifier>{9fe07593-7ecf-490d-90e7-9ec1d5825df3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -31,24 +49,18 @@
       <Filter>Header Files\ChituFileComponents</Filter>
     </ClCompile>
     <ClCompile Include="ChituPreviewImage.cpp">
-      <Filter>Header Files\ChituFileComponents</Filter>
+      <Filter>Header Files\ChituFileComponents\Preview Image Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ChituGCode.h">
-      <Filter>Header Files\ChituFileComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="ChituFileHeader.h">
-      <Filter>Header Files\ChituFileComponents</Filter>
-    </ClInclude>
     <ClInclude Include="ChituDataBlock.h">
-      <Filter>Header Files\Utilities</Filter>
+      <Filter>Header Files\ChituFileComponents\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="ChituDataTypes.h">
-      <Filter>Header Files\Utilities</Filter>
+      <Filter>Header Files\ChituFileComponents\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="FileInterpreter.h">
-      <Filter>Header Files\Utilities</Filter>
+    <ClInclude Include="ChituFileInterpreter.h">
+      <Filter>Header Files\ChituFileComponents\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="ChituFile.h">
       <Filter>Header Files\ChituFileComponents</Filter>
@@ -59,17 +71,38 @@
     <ClInclude Include="stb_image_write.h">
       <Filter>Header Files\STB_IMAGE</Filter>
     </ClInclude>
-    <ClInclude Include="ChituPreviewImage.h">
-      <Filter>Header Files\ChituFileComponents</Filter>
+    <ClInclude Include="ChituGCodeManager.h">
+      <Filter>Header Files\ChituFileComponents\G-Code Components</Filter>
     </ClInclude>
     <ClInclude Include="ChituLayerImage.h">
-      <Filter>Header Files\ChituFileComponents</Filter>
+      <Filter>Header Files\ChituFileComponents\Layer Image Components</Filter>
     </ClInclude>
-    <ClInclude Include="ChituCopyrightData.h">
-      <Filter>Header Files\ChituFileComponents</Filter>
+    <ClInclude Include="ChituPreviewImage.h">
+      <Filter>Header Files\ChituFileComponents\Preview Image Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ChituFileHeader.h">
+      <Filter>Header Files\ChituFileComponents\File Header Components</Filter>
     </ClInclude>
     <ClInclude Include="Helpers.h">
-      <Filter>Header Files\ChituFileComponents</Filter>
+      <Filter>Header Files\ChituFileComponents\OTHER</Filter>
+    </ClInclude>
+    <ClInclude Include="ChituCopyrightData.h">
+      <Filter>Header Files\ChituFileComponents\Copyright Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ChituPreviewImageHeader.h">
+      <Filter>Header Files\ChituFileComponents\Preview Image Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ChituGCodeLine.h">
+      <Filter>Header Files\ChituFileComponents\G-Code Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ChituInterLayerGCodeLine.h">
+      <Filter>Header Files\ChituFileComponents\G-Code Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ChituPreviewImageManager.h">
+      <Filter>Header Files\ChituFileComponents\Preview Image Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ChituLayerImageManager.h">
+      <Filter>Header Files\ChituFileComponents\Layer Image Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

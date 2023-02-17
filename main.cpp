@@ -13,14 +13,16 @@ of generating lattices*/
 #include "ChituFile.h"
 
 
+#define SAVE_PREVIEW_IMAGES true
+#define SAVE_LAYER_IMAGES false
+#define GENERATE_REPORT true
+
 //CHANGE THESE TO CHANGE THE "DEBUG"
 //LEVEL--can make flags eventually but
 //will probably rework the whole
 //main loop eventually so this works just dandy
 //for now
-const bool SAVE_PREVIEW_IMAGES = false;
-const bool SAVE_LAYER_IMAGES = false;
-const bool GENERATE_REPORT = true;
+
 
 int main() {
 
@@ -35,7 +37,7 @@ int main() {
 
 	std::string temp;
 
-	std::cout << "Enter the name of the file to analyze (without the file extension)" << std::endl;
+	std::cout << "Enter the name of the file to analyze (without the file extension)\n";
 	
 	std::cin >> temp;
 
@@ -58,13 +60,13 @@ int main() {
 	if (!newCFile.InitFile())
 	{
 		//if it fails, say something!
-		std::cout << "Unable to read '" << newCFile.GetFilePath() << "'" << std::endl;
+		std::cout << "Unable to read '" << newCFile.GetFilePath() << "'\n";
 		//then quit
 		return -1;
 	}
 
 	//console output
-	std::cout << "> Loading File..." << std::endl;
+	std::cout << "> Loading File...\n";
 
 	//load the file
 	newCFile.LoadFile();
@@ -73,7 +75,7 @@ int main() {
 	auto loadEndTime = std::chrono::steady_clock::now();
 
 	//console output
-	std::cout << "> Decoding Data..." << std::endl;
+	std::cout << "> Decoding Data...\n";
 
 	//decode all the data
 	newCFile.DecodeFile();
@@ -85,14 +87,14 @@ int main() {
 	if (SAVE_PREVIEW_IMAGES)
 	{
 		//console output
-		std::cout << "> Saving Preview Images..." << std::endl;
+		std::cout << "> Saving Preview Images...\n";
 		newCFile.SavePreviewImages();
 	}
 	
 	if (SAVE_LAYER_IMAGES)
 	{
 		//console output
-		std::cout << "> Saving Layer Images..." << std::endl;
+		std::cout << "> Saving Layer Images...\n";
 		newCFile.SaveLayerImages();
 	}
 	
@@ -102,7 +104,7 @@ int main() {
 	if (GENERATE_REPORT)
 	{
 		//console output
-		std::cout << "> Generating Report..." << std::endl;
+		std::cout << "> Generating Report...\n";
 
 		//generate a report
 		newCFile.Report(logFileName);
@@ -112,7 +114,7 @@ int main() {
 	auto writeEndTime = std::chrono::steady_clock::now();
 
 	//console output
-	std::cout << "> Finished." << std::endl;
+	std::cout << "> Finished.\n";
 
 	//timing stuff
 	double loadDiff = std::chrono::duration_cast<std::chrono::microseconds>(loadEndTime - startTime).count();
@@ -128,11 +130,11 @@ int main() {
 	double writePerc = (writeDiff / totalDiff) * 100;
 
 	//console output
-	std::cout << "\n> File read in " << std::chrono::duration <double, std::milli>(loadDiff).count() << " us (" << loadPerc << "%)" << std::endl;
-	std::cout << "> Decoded in " << std::chrono::duration <double, std::milli>(decodeDiff).count() << " us (" << decodePerc << "%)" << std::endl;
-	if (SAVE_PREVIEW_IMAGES || SAVE_LAYER_IMAGES) std::cout << "> Images Saved in " << std::chrono::duration <double, std::milli>(saveLayerImageDiff).count() << " us (" << saveLayerImagePerc << "%)" << std::endl;
-	if (GENERATE_REPORT) std::cout << "> Log written in " << std::chrono::duration <double, std::milli>(writeDiff).count() << " us (" << writePerc << "%)" << std::endl;
-	std::cout << "> Total " << std::chrono::duration <double, std::milli>(totalDiff).count() << " us" << std::endl;
+	std::cout << "\n> File read in " << std::chrono::duration <double, std::milli>(loadDiff).count() << " us (" << loadPerc << "%)\n";
+	std::cout << "> Decoded in " << std::chrono::duration <double, std::milli>(decodeDiff).count() << " us (" << decodePerc << "%)\n";
+	if (SAVE_PREVIEW_IMAGES || SAVE_LAYER_IMAGES) std::cout << "> Images Saved in " << std::chrono::duration <double, std::milli>(saveLayerImageDiff).count() << " us (" << saveLayerImagePerc << "%)\n";
+	if (GENERATE_REPORT) std::cout << "> Log written in " << std::chrono::duration <double, std::milli>(writeDiff).count() << " us (" << writePerc << "%)\n";
+	std::cout << "> Total " << std::chrono::duration <double, std::milli>(totalDiff).count() << " us\n";
 	
 	//end of program
 	return 0;

@@ -1,5 +1,10 @@
 #pragma once
 
+//NOT DOCUMENTING THIS ONE AS WELL AS THE OTHERS
+//BECAUSE EVENTUALLY THESE WILL BE IDENTIFIED
+//AND PUT INTO A DIFFERENT FILE. LOOK AT THE OTHER
+//DATABLOCK INHERITED STRUCTURES TO FIGURE OUT THIS,
+//IT'S THE SAME THING!
 
 #include "ChituDataBlock.h"
 
@@ -72,36 +77,14 @@ struct ChituUnknownDataBlock : public ChituDataBlock
 	long int GetMachineTypeString() { return GetValueByKey<long int>("MACHINE_TYPE_ADDRESS"); }
 	long int GetMachineTypeStringLength() { return GetValueByKey<long int>("MACHINE_TYPE_LENGTH"); }
 	long int GetAddressOfMysteryData() { return GetValueByKey<long int>("MYSTERY_DATA_ADDRESS"); }
-	//long int GetCopyrightDataSize() { return (GetAddressOfMysteryData() - GetMachineTypeString()); }
 
 	void ReportData(std::ostream* targetStream, int tabLevel = 0)
 	{
+		
+		ChituDataBlock::ReportData(targetStream, tabLevel);
 		std::string tabString = "";
 		for (int i = 0; i < tabLevel; i++) tabString.append(1, '\t');
-
-		for (std::vector<std::string>::iterator dataEntry = dataInsertionOrder.begin(); dataEntry != dataInsertionOrder.end(); dataEntry++)
-		{
-
-			ChituData* datum = data[*dataEntry];
-
-			*targetStream << tabString << datum->name << ": ";
-
-			switch (datum->type)
-			{
-			case DataType::INT:
-			case DataType::ADDRESS:
-				*targetStream << GetValueByKey<long int>(*dataEntry) << std::endl;
-				break;
-			case DataType::FLOAT:
-				*targetStream << GetValueByKey<float>(*dataEntry) << std::endl;
-				break;
-			case DataType::SHORT:
-				*targetStream << GetValueByKey<short int>(*dataEntry) << std::endl;
-				break;
-			}
-		}
-
-		*targetStream << tabString << "Machine Type: " << machineType << std::endl;
+		*targetStream << tabString << "Machine Type: " << machineType << "\n";
 
 	}
 };

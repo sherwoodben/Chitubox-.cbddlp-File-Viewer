@@ -51,6 +51,8 @@ void ChituPreviewImage::DecodeImage()
 		}
 	}
 
+	//set converted to true so we don't do this
+	//again on accident!
 	converted = true;
 }
 
@@ -62,11 +64,10 @@ int ChituPreviewImage::SaveImage(std::string imgName)
 	if (imgName == "") imgName = std::to_string(imgStartAddress);
 	std::string fileName = "OUTPUT\\" + imgName + ".bmp";
 
-	//only do the conversion if we haven't already!
-	if (!converted)
-	{
-		DecodeImage();
-	}
+	//decode the image-- if it's already been
+	//decoded then it returns automatically without
+	//doing anything and it's ready to save.
+	DecodeImage();
 
 	//returns 0 if there was an error, so we can handle
 	//that wherever this function returns

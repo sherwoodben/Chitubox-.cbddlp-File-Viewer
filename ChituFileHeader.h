@@ -6,9 +6,8 @@
 
 struct ChituFileHeader : public ChituDataBlock
 {
-	//found by poking around in a hex editor;
-	//slight possibility I've made the wrong
-	//conclusion
+	//offsets to data within the
+	//file header block for .cbddlp file type
 	enum DataOffsets
 	{
 		SCREEN_X_MM = 0x00000008,
@@ -36,14 +35,16 @@ struct ChituFileHeader : public ChituDataBlock
 		SUBDATA_2_SIZE = 0x0000006C
 	};
 
+	//constructor calls the Init function, passes a read offset of 0
+	//to the data ChituDataBlock constructor since this is at the
+	//beginning of the file
 	ChituFileHeader(std::FILE* readFrom, long int bytesToRead) 
 		: ChituDataBlock(readFrom, 0, bytesToRead)
 	{
 		InitFileHeader();
 	}
 
-	//the RegisterData function makes it easy to associate
-	//data with a human-readable/understandable name and key!
+	//sets up all the variables associated with the file header
 	void InitFileHeader()
 	{
 		RegisterData(new ChituFloat(rawData, SCREEN_X_MM, "Screen X Size (mm)"), "SCREEN_X_MM");
@@ -72,7 +73,8 @@ struct ChituFileHeader : public ChituDataBlock
 		
 	}
 
-	
+	//extra functions that make getting some of the values easier (so we don't need to remember
+	//key words all of the time. Note, we still can access value by key if we want!)
 	long int GetLargePreviewHeaderAddress() { return GetValueByKey<long int>("LARGE_PREVIEW_ADDRESS");}
 	long int GetSmallPreviewHeaderAddress() { return GetValueByKey<long int>("SMALL_PREVIEW_ADDRESS");}
 	long int GetSubdata1Address() { return GetValueByKey<long int>("SUBDATA_1_ADDRESS"); }
